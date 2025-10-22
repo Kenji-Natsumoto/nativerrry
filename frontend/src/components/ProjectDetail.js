@@ -1278,43 +1278,53 @@ const ProjectDetail = () => {
                                 {/* Uploaded Files */}
                                 {item.files && item.files.length > 0 && (
                                   <div className="mt-3 space-y-2">
-                                    {item.files.map((file, idx) => (
-                                      <div key={idx} className="flex items-center gap-3 p-2 bg-gray-50 rounded-lg border">
-                                        {isImageFile(file.mime_type) ? (
-                                          <img
-                                            src={`${API.replace('/api', '')}/uploads/${file.filename}`}
-                                            alt={file.original_name}
-                                            className="w-12 h-12 object-cover rounded"
-                                          />
-                                        ) : (
-                                          <div className="w-12 h-12 flex items-center justify-center bg-gray-200 rounded">
+                                    {item.files.map((file, idx) => {
+                                      const imageUrl = `${BACKEND_URL}/api/uploads/${file.filename}`;
+                                      return (
+                                        <div key={idx} className="flex items-center gap-3 p-2 bg-gray-50 rounded-lg border">
+                                          {isImageFile(file.mime_type) ? (
+                                            <img
+                                              src={imageUrl}
+                                              alt={file.original_name}
+                                              className="w-12 h-12 object-cover rounded"
+                                              onError={(e) => {
+                                                console.error('Failed to load image:', imageUrl);
+                                                e.target.style.display = 'none';
+                                                e.target.nextSibling.style.display = 'flex';
+                                              }}
+                                            />
+                                          ) : null}
+                                          <div 
+                                            className="w-12 h-12 flex items-center justify-center bg-gray-200 rounded"
+                                            style={{ display: isImageFile(file.mime_type) ? 'none' : 'flex' }}
+                                          >
                                             <FileIcon className="w-6 h-6 text-gray-500" />
                                           </div>
-                                        )}
-                                        <div className="flex-1 min-w-0">
-                                          <div className="text-sm font-medium text-gray-900 truncate">
-                                            {file.original_name}
+                                          <div className="flex-1 min-w-0">
+                                            <div className="text-sm font-medium text-gray-900 truncate">
+                                              {file.original_name}
+                                            </div>
+                                            <div className="text-xs text-gray-500">
+                                              {(file.file_size / 1024).toFixed(1)} KB
+                                            </div>
                                           </div>
-                                          <div className="text-xs text-gray-500">
-                                            {(file.file_size / 1024).toFixed(1)} KB
-                                          </div>
+                                          <a
+                                            href={imageUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="px-3 py-1 text-xs text-blue-600 hover:text-blue-700"
+                                          >
+                                            表示
+                                          </a>
+                                          <button
+                                            onClick={() => deleteFileFromChecklist(item.id, file.filename)}
+                                            className="p-1 text-red-600 hover:bg-red-50 rounded"
+                                          >
+                                            <X className="w-4 h-4" />
+                                          </button>
                                         </div>
-                                        <a
-                                          href={`${API.replace('/api', '')}/uploads/${file.filename}`}
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                          className="px-3 py-1 text-xs text-blue-600 hover:text-blue-700"
-                                        >
-                                          表示
-                                        </a>
-                                        <button
-                                          onClick={() => deleteFileFromChecklist(item.id, file.filename)}
-                                          className="p-1 text-red-600 hover:bg-red-50 rounded"
-                                        >
-                                          <X className="w-4 h-4" />
-                                        </button>
-                                      </div>
-                                    ))}
+                                      );
+                                    })}
                                   </div>
                                 )}
                               </div>
