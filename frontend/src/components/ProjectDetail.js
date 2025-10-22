@@ -141,6 +141,41 @@ const ProjectDetail = () => {
     }
   };
 
+  const updateTaskDueDate = async (taskId, dueDate) => {
+    try {
+      await axios.put(`${API}/tasks/${taskId}`, {
+        due_date: dueDate ? new Date(dueDate).toISOString() : null
+      });
+      // Reload tasks to reflect changes
+      const tasksByPhaseRes = await axios.get(`${API}/projects/${projectId}/tasks`);
+      setTasksByPhase(tasksByPhaseRes.data.tasks_by_phase || []);
+    } catch (error) {
+      console.error('Failed to update task due date:', error);
+      alert('期日の更新に失敗しました');
+    }
+  };
+
+  const getDueDateStatus = (dueDate) => {
+    if (!dueDate) return null;
+    
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const due = new Date(dueDate);
+    due.setHours(0, 0, 0, 0);
+    const diffDays = Math.ceil((due - today) / (1000 * 60 * 60 * 24));
+    
+    if (diffDays < 0) {
+      return { type: 'overdue', label: '期日超過', color: 'bg-red-100 text-red-700' };
+    } else if (diffDays === 0) {
+      return { type: 'today', label: '今日が期日', color: 'bg-orange-100 text-orange-700' };
+    } else if (diffDays <= 3) {
+      return { type: 'soon', label: `残り${diffDays}日`, color: 'bg-yellow-100 text-yellow-700' };
+    } else if (diffDays <= 7) {
+      return { type: 'week', label: `残り${diffDays}日`, color: 'bg-blue-100 text-blue-700' };
+    }
+    return null;
+  };
+
   const handleMemoChange = (taskId, memo) => {
     // Update locally first for instant feedback
     setTasksByPhase(tasksByPhase.map(phase => ({
