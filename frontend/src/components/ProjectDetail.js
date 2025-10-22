@@ -556,7 +556,7 @@ const ProjectDetail = () => {
         {/* Overview Tab */}
         {activeTab === 'overview' && (
           <div className="space-y-6" data-testid="overview-tab">
-            <div className="bg-white rounded-lg shadow-sm border p-6">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
                   <h2 className="text-xl font-semibold mb-2">プロジェクト概要</h2>
@@ -614,7 +614,7 @@ const ProjectDetail = () => {
         {/* Schedule Tab */}
         {activeTab === 'schedule' && (
           <div className="space-y-6" data-testid="schedule-tab">
-            <div className="bg-white rounded-lg shadow-sm border p-6">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-semibold">プロジェクトスケジュール</h2>
                 {!editingSchedule ? (
@@ -701,7 +701,7 @@ const ProjectDetail = () => {
             </div>
 
             {/* Phase Progress */}
-            <div className="bg-white rounded-lg shadow-sm border p-6">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
               <h3 className="text-lg font-semibold mb-4">フェーズ別進捗</h3>
               <div className="space-y-4">
                 {tasksByPhase.map((phase) => {
@@ -730,7 +730,7 @@ const ProjectDetail = () => {
             </div>
 
             {/* Upcoming Due Dates */}
-            <div className="bg-white rounded-lg shadow-sm border p-6">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
               <h3 className="text-lg font-semibold mb-4">期日が設定されたタスク</h3>
               <div className="space-y-3">
                 {allTasks
@@ -918,7 +918,7 @@ const ProjectDetail = () => {
         {activeTab === 'report' && (
           <div className="space-y-6" data-testid="report-tab">
             {/* Overall Progress */}
-            <div className="bg-white rounded-lg shadow-sm border p-6">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
               <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
                 <Target className="w-5 h-5 text-blue-600" />
                 全体進捗サマリー
@@ -1014,7 +1014,7 @@ const ProjectDetail = () => {
             </div>
 
             {/* Phase Analysis */}
-            <div className="bg-white rounded-lg shadow-sm border p-6">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
               <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
                 <TrendingUp className="w-5 h-5 text-green-600" />
                 フェーズ別分析
@@ -1088,7 +1088,7 @@ const ProjectDetail = () => {
 
             {/* Rejection Analysis */}
             {rejections.length > 0 && (
-              <div className="bg-white rounded-lg shadow-sm border p-6">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                 <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
                   <AlertTriangle className="w-5 h-5 text-red-600" />
                   リジェクト分析
