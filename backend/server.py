@@ -37,6 +37,8 @@ class Project(BaseModel):
     platform: str  # "iOS", "Android", "Both"
     description: Optional[str] = None
     status: str = "active"  # "active", "submitted", "approved", "rejected"
+    start_date: Optional[datetime] = None  # ネイティブ申請開始日
+    publish_date: Optional[datetime] = None  # 公開日（目標）
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -44,12 +46,17 @@ class ProjectCreate(BaseModel):
     name: str
     platform: str
     description: Optional[str] = None
+    start_date: Optional[datetime] = None
+    publish_date: Optional[datetime] = None
+    auto_generate_tasks: bool = True
 
 class ProjectUpdate(BaseModel):
     name: Optional[str] = None
     platform: Optional[str] = None
     description: Optional[str] = None
     status: Optional[str] = None
+    start_date: Optional[datetime] = None
+    publish_date: Optional[datetime] = None
 
 
 class Task(BaseModel):
