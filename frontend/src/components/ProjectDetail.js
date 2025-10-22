@@ -372,73 +372,240 @@ const ProjectDetail = () => {
           </div>
         )}
 
-        {/* Tasks Tab */}
-        {activeTab === 'tasks' && (
-          <div className="space-y-6" data-testid="tasks-tab">
-            {['preparation', 'development', 'submission', 'review'].map((phase) => {
-              const phaseLabels = {
-                preparation: '準備フェーズ',
-                development: '開発フェーズ',
-                submission: '申請フェーズ',
-                review: '審査フェーズ'
-              };
-              
-              return (
-                <div key={phase} className="bg-white rounded-lg shadow-sm border p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold">{phaseLabels[phase]}</h3>
+        {/* Schedule Tab */}
+        {activeTab === 'schedule' && (
+          <div className="space-y-6" data-testid="schedule-tab">
+            <div className="bg-white rounded-lg shadow-sm border p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-semibold">プロジェクトスケジュール</h2>
+                {!editingSchedule ? (
+                  <button
+                    onClick={() => setEditingSchedule(true)}
+                    className="px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700"
+                  >
+                    編集
+                  </button>
+                ) : (
+                  <div className="flex gap-2">
                     <button
-                      onClick={() => addNewTask(phase)}
-                      className="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1"
-                      data-testid={`add-task-${phase}`}
+                      onClick={() => {
+                        setEditingSchedule(false);
+                        setScheduleData({
+                          start_date: project.start_date ? project.start_date.split('T')[0] : '',
+                          publish_date: project.publish_date ? project.publish_date.split('T')[0] : ''
+                        });
+                      }}
+                      className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-700"
                     >
-                      <Plus className="w-4 h-4" />
-                      タスク追加
+                      キャンセル
+                    </button>
+                    <button
+                      onClick={updateSchedule}
+                      className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg"
+                    >
+                      保存
                     </button>
                   </div>
-                  
-                  {tasksByPhase[phase].length === 0 ? (
-                    <p className="text-gray-400 text-sm">タスクがありません</p>
+                )}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-blue-50 rounded-lg p-6">
+                  <label className="block text-sm font-medium text-blue-900 mb-2">
+                    ネイティブ申請開始日
+                  </label>
+                  {editingSchedule ? (
+                    <input
+                      type="date"
+                      value={scheduleData.start_date}
+                      onChange={(e) => setScheduleData({ ...scheduleData, start_date: e.target.value })}
+                      className="w-full px-3 py-2 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
                   ) : (
-                    <div className="space-y-3">
-                      {tasksByPhase[phase].map((task) => (
-                        <div
-                          key={task.id}
-                          className="flex items-center gap-3 p-3 rounded-lg border hover:bg-gray-50"
-                          data-testid={`task-${task.id}`}
-                        >
-                          <input
-                            type="checkbox"
-                            checked={task.status === 'completed'}
-                            onChange={(e) => updateTaskStatus(task.id, e.target.checked ? 'completed' : 'pending')}
-                            className="w-5 h-5 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
-                            data-testid={`task-checkbox-${task.id}`}
-                          />
-                          <div className="flex-1">
-                            <div className={`font-medium ${task.status === 'completed' ? 'line-through text-gray-400' : 'text-gray-900'}`}>
-                              {task.title}
-                            </div>
-                            {task.description && (
-                              <div className="text-sm text-gray-500">{task.description}</div>
-                            )}
-                          </div>
-                          <span className={`px-2 py-1 text-xs rounded-full priority-${task.priority}`}>
-                            {task.priority === 'high' ? '高' : task.priority === 'medium' ? '中' : '低'}
-                          </span>
-                          <button
-                            onClick={() => deleteTask(task.id)}
-                            className="p-1 text-red-600 hover:bg-red-50 rounded"
-                            data-testid={`delete-task-${task.id}`}
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                      ))}
+                    <div className="text-2xl font-bold text-blue-900">
+                      {project.start_date 
+                        ? new Date(project.start_date).toLocaleDateString('ja-JP') 
+                        : '未設定'}
                     </div>
                   )}
                 </div>
-              );
-            })}
+
+                <div className="bg-green-50 rounded-lg p-6">
+                  <label className="block text-sm font-medium text-green-900 mb-2">
+                    公開日（目標）
+                  </label>
+                  {editingSchedule ? (
+                    <input
+                      type="date"
+                      value={scheduleData.publish_date}
+                      onChange={(e) => setScheduleData({ ...scheduleData, publish_date: e.target.value })}
+                      className="w-full px-3 py-2 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    />
+                  ) : (
+                    <div className="text-2xl font-bold text-green-900">
+                      {project.publish_date 
+                        ? new Date(project.publish_date).toLocaleDateString('ja-JP') 
+                        : '未設定'}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {project.start_date && project.publish_date && (
+                <div className="mt-6 bg-gray-50 rounded-lg p-4">
+                  <div className="text-sm text-gray-600">予定期間</div>
+                  <div className="text-lg font-semibold text-gray-900">
+                    {Math.ceil((new Date(project.publish_date) - new Date(project.start_date)) / (1000 * 60 * 60 * 24))} 日間
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Phase Progress */}
+            <div className="bg-white rounded-lg shadow-sm border p-6">
+              <h3 className="text-lg font-semibold mb-4">フェーズ別進捗</h3>
+              <div className="space-y-4">
+                {tasksByPhase.map((phase) => {
+                  const phaseCompletedTasks = phase.tasks.filter(t => t.completed).length;
+                  const phaseTotalTasks = phase.tasks.length;
+                  const progress = phaseTotalTasks > 0 ? Math.round((phaseCompletedTasks / phaseTotalTasks) * 100) : 0;
+                  
+                  return (
+                    <div key={phase.phase_number} className="border rounded-lg p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="font-medium text-gray-900">{phase.phase_name}</div>
+                        <div className="text-sm text-gray-600">
+                          {phaseCompletedTasks}/{phaseTotalTasks} 完了
+                        </div>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div 
+                          className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                          style={{ width: `${progress}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Tasks Tab */}
+        {activeTab === 'tasks' && (
+          <div className="space-y-6" data-testid="tasks-tab">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-semibold">タスク管理</h2>
+              <button
+                onClick={generateDefaultTasks}
+                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg flex items-center gap-2"
+              >
+                <Plus className="w-4 h-4" />
+                デフォルトタスク生成
+              </button>
+            </div>
+
+            {tasksByPhase.length === 0 ? (
+              <div className="bg-white rounded-lg shadow-sm border p-12 text-center">
+                <ListTodo className="mx-auto h-12 w-12 text-gray-400" />
+                <h3 className="mt-2 text-sm font-medium text-gray-900">タスクがありません</h3>
+                <p className="mt-1 text-sm text-gray-500">
+                  デフォルトタスクを生成してください
+                </p>
+              </div>
+            ) : (
+              tasksByPhase.map((phase) => (
+                <div key={phase.phase_number} className="bg-white rounded-lg shadow-sm border">
+                  <div className="bg-gray-50 px-6 py-4 border-b">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-900">
+                          フェーズ {phase.phase_number}: {phase.phase_name}
+                        </h3>
+                        <p className="text-sm text-gray-500 mt-1">
+                          {phase.tasks.filter(t => t.completed).length}/{phase.tasks.length} 完了
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-6 space-y-3">
+                    {phase.tasks.map((task) => (
+                      <div
+                        key={task.id}
+                        className="border rounded-lg p-4 hover:bg-gray-50 transition-colors"
+                        data-testid={`task-${task.id}`}
+                      >
+                        <div className="flex items-start gap-3">
+                          <input
+                            type="checkbox"
+                            checked={task.completed}
+                            onChange={(e) => toggleTaskCompletion(task.id, e.target.checked)}
+                            className="mt-1 w-5 h-5 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                            data-testid={`task-checkbox-${task.id}`}
+                          />
+                          <div className="flex-1">
+                            <div className="flex items-start justify-between">
+                              <div className="flex-1">
+                                <div className={`font-medium ${task.completed ? 'line-through text-gray-400' : 'text-gray-900'}`}>
+                                  {task.step_number && (
+                                    <span className="text-blue-600 mr-2">[{task.step_number}]</span>
+                                  )}
+                                  {task.title}
+                                </div>
+                                {task.description && (
+                                  <div className="text-sm text-gray-600 mt-1">{task.description}</div>
+                                )}
+                                <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                                  {task.estimated_days && (
+                                    <span className="flex items-center gap-1">
+                                      <Clock className="w-3 h-3" />
+                                      {task.estimated_days}
+                                    </span>
+                                  )}
+                                  {task.assigned_to && (
+                                    <span>担当: {task.assigned_to}</span>
+                                  )}
+                                  {task.priority && (
+                                    <span className={`px-2 py-0.5 rounded-full ${
+                                      task.priority === 'high' ? 'bg-red-100 text-red-700' :
+                                      task.priority === 'medium' ? 'bg-yellow-100 text-yellow-700' :
+                                      'bg-gray-100 text-gray-700'
+                                    }`}>
+                                      {task.priority === 'high' ? '高' : task.priority === 'medium' ? '中' : '低'}
+                                    </span>
+                                  )}
+                                </div>
+                                {task.platform_specific && (
+                                  <div className="mt-2 bg-blue-50 rounded p-2 text-xs text-blue-800">
+                                    📱 {task.platform_specific}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                            
+                            {/* Memo Section */}
+                            <div className="mt-3">
+                              <label className="block text-xs font-medium text-gray-700 mb-1">メモ</label>
+                              <textarea
+                                value={task.memo || ''}
+                                onChange={(e) => handleMemoChange(task.id, e.target.value)}
+                                onBlur={(e) => updateTaskMemo(task.id, e.target.value)}
+                                rows="2"
+                                placeholder="タスクに関するメモを入力..."
+                                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                data-testid={`task-memo-${task.id}`}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         )}
 
