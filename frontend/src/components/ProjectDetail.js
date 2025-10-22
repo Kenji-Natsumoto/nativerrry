@@ -801,7 +801,7 @@ const ProjectDetail = () => {
             ) : (
               tasksByPhase.map((phase) => (
                 <div key={phase.phase_number} className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-                  <div className="bg-gray-50 px-6 py-4 border-b">
+                  <div className="bg-gray-50 dark:bg-gray-900/50 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="text-lg font-semibold text-gray-900">
@@ -1193,7 +1193,7 @@ const ProjectDetail = () => {
 
                 return (
                   <div key={platform} className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-                    <div className="bg-gray-50 px-6 py-4 border-b">
+                    <div className="bg-gray-50 dark:bg-gray-900/50 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                       <div className="flex items-center justify-between">
                         <div>
                           <h3 className="text-lg font-semibold text-gray-900">{platform} ストア申請チェックリスト</h3>
