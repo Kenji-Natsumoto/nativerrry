@@ -378,10 +378,20 @@ def run_comprehensive_tests():
     print("🔍 4. デフォルトタスク再生成テスト")
     if ios_project_id:
         test_generate_default_tasks(ios_project_id)
+        # 再生成後に新しいタスクを取得
+        ios_tasks_after_regen = test_get_project_tasks(ios_project_id, "iOS (after regen)")
     
     # 5. タスク完了状態更新テスト
     print("🔍 5. タスク完了状態更新テスト")
-    if ios_tasks and len(ios_tasks) > 0 and len(ios_tasks[0]["tasks"]) > 0:
+    if ios_tasks_after_regen and len(ios_tasks_after_regen) > 0 and len(ios_tasks_after_regen[0]["tasks"]) > 0:
+        first_task_id = ios_tasks_after_regen[0]["tasks"][0]["id"]
+        test_task_completion(first_task_id)
+        
+        # 6. タスクメモ更新テスト
+        print("🔍 6. タスクメモ更新テスト")
+        test_task_memo(first_task_id)
+    elif ios_tasks and len(ios_tasks) > 0 and len(ios_tasks[0]["tasks"]) > 0:
+        # フォールバック：元のタスクを使用
         first_task_id = ios_tasks[0]["tasks"][0]["id"]
         test_task_completion(first_task_id)
         
