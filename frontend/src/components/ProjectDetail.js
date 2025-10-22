@@ -304,6 +304,26 @@ const ProjectDetail = () => {
   const totalTasks = allTasks.length;
   const completedChecklist = checklistItems.filter(i => i.status === 'completed').length;
   const totalChecklist = checklistItems.length;
+  
+  // Due date statistics
+  const overdueTasks = allTasks.filter(t => {
+    if (!t.due_date || t.completed) return false;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const due = new Date(t.due_date);
+    due.setHours(0, 0, 0, 0);
+    return due < today;
+  }).length;
+  
+  const upcomingTasks = allTasks.filter(t => {
+    if (!t.due_date || t.completed) return false;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const due = new Date(t.due_date);
+    due.setHours(0, 0, 0, 0);
+    const diffDays = Math.ceil((due - today) / (1000 * 60 * 60 * 24));
+    return diffDays >= 0 && diffDays <= 7;
+  }).length;
 
   const tabs = [
     { id: 'overview', label: '概要', icon: LayoutDashboard },
