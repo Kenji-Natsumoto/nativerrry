@@ -443,6 +443,45 @@ async def delete_task(task_id: str):
     
     return {"message": "Task deleted successfully"}
 
+@api_router.patch("/tasks/{task_id}/complete")
+async def toggle_task_completion(task_id: str, completed: bool):
+    """タスクの完了状態を更新"""
+    update_data = {"completed": completed}
+    
+    if completed:
+        update_data["completed_at"] = datetime.now(timezone.utc).isoformat()
+        update_data["status"] = "completed"
+    else:
+        update_data["completed_at"] = None
+        update_data["status"] = "pending"
+    
+    result = await db.tasks.update_one(
+        {"id": task_id},
+        {"$set": update_data}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Task not found")
+    
+    task = await db.tasks.find_one({"id": task_id}, {"_id": 0})
+    deserialize_datetime(task, ['created_at', 'due_date', 'completed_at'])
+    return task
+
+@api_router.patch("/tasks/{task_id}/memo")
+async def update_task_memo(task_id: str, memo: str):
+    """タスクのメモを更新"""
+    result = await db.tasks.update_one(
+        {"id": task_id},
+        {"$set": {"memo": memo}}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Task not found")
+    
+    task = await db.tasks.find_one({"id": task_id}, {"_id": 0})
+    deserialize_datetime(task, ['created_at', 'due_date', 'completed_at'])
+    return task
+
 
 # ========== Checklist Endpoints ==========
 
