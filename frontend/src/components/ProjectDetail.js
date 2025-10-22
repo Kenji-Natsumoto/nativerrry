@@ -473,8 +473,18 @@ const ProjectDetail = () => {
         {activeTab === 'overview' && (
           <div className="space-y-6" data-testid="overview-tab">
             <div className="bg-white rounded-lg shadow-sm border p-6">
-              <h2 className="text-xl font-semibold mb-4">プロジェクト概要</h2>
-              <p className="text-gray-600 mb-4">{project.description || 'プロジェクトの説明はありません'}</p>
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex-1">
+                  <h2 className="text-xl font-semibold mb-2">プロジェクト概要</h2>
+                  <p className="text-gray-600">{project.description || 'プロジェクトの説明はありません'}</p>
+                </div>
+                <div>
+                  <span className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border ${getStatusInfo(project.status).color}`}>
+                    <span>{getStatusInfo(project.status).icon}</span>
+                    {getStatusInfo(project.status).label}
+                  </span>
+                </div>
+              </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
                 <div className="bg-blue-50 rounded-lg p-4">
