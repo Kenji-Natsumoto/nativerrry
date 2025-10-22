@@ -40,7 +40,7 @@ const Dashboard = () => {
       const response = await axios.post(`${API}/projects`, newProject);
       setProjects([...projects, response.data]);
       setShowModal(false);
-      setNewProject({ name: '', platform: 'Both', description: '' });
+      setNewProject({ name: '', platform: 'Both', description: '', start_date: '', publish_date: '' });
       
       // Navigate to the new project
       navigate(`/project/${response.data.id}`);
