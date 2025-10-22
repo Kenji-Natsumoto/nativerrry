@@ -1108,51 +1108,113 @@ const ProjectDetail = () => {
         {/* Checklist Tab */}
         {activeTab === 'checklist' && (
           <div className="space-y-6" data-testid="checklist-tab">
-            {(project.platform === 'Both' ? ['iOS', 'Android'] : [project.platform]).map((platform) => (
-              <div key={platform} className="bg-white rounded-lg shadow-sm border p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold">{platform} チェックリスト</h3>
-                  <button
-                    onClick={() => addChecklistItem(platform)}
-                    className="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1"
-                    data-testid={`add-checklist-${platform}`}
-                  >
-                    <Plus className="w-4 h-4" />
-                    項目追加
-                  </button>
-                </div>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-semibold">申請チェックリスト</h2>
+              <button
+                onClick={generateDefaultChecklist}
+                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg flex items-center gap-2"
+              >
+                <Plus className="w-4 h-4" />
+                デフォルトチェックリスト生成
+              </button>
+            </div>
+
+            {checklistItems.length === 0 ? (
+              <div className="bg-white rounded-lg shadow-sm border p-12 text-center">
+                <CheckSquare className="mx-auto h-12 w-12 text-gray-400" />
+                <h3 className="mt-2 text-sm font-medium text-gray-900">チェックリスト項目がありません</h3>
+                <p className="mt-1 text-sm text-gray-500">
+                  デフォルトチェックリストを生成してください
+                </p>
+              </div>
+            ) : (
+              (project.platform === 'Both' ? ['iOS', 'Android'] : [project.platform]).map((platform) => {
+                const platformItems = checklistItems
+                  .filter(item => item.platform === platform)
+                  .sort((a, b) => (a.order || 0) - (b.order || 0));
                 
-                {checklistItems.filter(item => item.platform === platform).length === 0 ? (
-                  <p className="text-gray-400 text-sm">チェックリスト項目がありません</p>
-                ) : (
-                  <div className="space-y-2">
-                    {checklistItems.filter(item => item.platform === platform).map((item) => (
-                      <div
-                        key={item.id}
-                        className="flex items-center gap-3 p-3 rounded-lg border hover:bg-gray-50"
-                        data-testid={`checklist-item-${item.id}`}
-                      >
-                        <input
-                          type="checkbox"
-                          checked={item.status === 'completed'}
-                          onChange={(e) => updateChecklistStatus(item.id, e.target.checked ? 'completed' : 'incomplete')}
-                          className="w-5 h-5 text-green-600 rounded focus:ring-2 focus:ring-green-500"
-                          data-testid={`checklist-checkbox-${item.id}`}
-                        />
-                        <div className="flex-1">
-                          <div className={`font-medium ${item.status === 'completed' ? 'line-through text-gray-400' : 'text-gray-900'}`}>
-                            {item.item_name}
-                          </div>
-                          {item.description && (
-                            <div className="text-sm text-gray-500">{item.description}</div>
-                          )}
+                if (platformItems.length === 0) return null;
+                
+                const completedCount = platformItems.filter(item => item.status === 'completed').length;
+                const progress = Math.round((completedCount / platformItems.length) * 100);
+
+                return (
+                  <div key={platform} className="bg-white rounded-lg shadow-sm border">
+                    <div className="bg-gray-50 px-6 py-4 border-b">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-900">{platform} ストア申請チェックリスト</h3>
+                          <p className="text-sm text-gray-500 mt-1">
+                            {completedCount}/{platformItems.length} 完了 ({progress}%)
+                          </p>
+                        </div>
+                        <div className="w-32 bg-gray-200 rounded-full h-2">
+                          <div 
+                            className="bg-green-500 h-2 rounded-full transition-all duration-300"
+                            style={{ width: `${progress}%` }}
+                          ></div>
                         </div>
                       </div>
-                    ))}
+                    </div>
+                    
+                    <div className="p-6 space-y-4">
+                      {platformItems.map((item) => (
+                        <div
+                          key={item.id}
+                          className="border rounded-lg p-4 hover:bg-gray-50 transition-colors"
+                          data-testid={`checklist-item-${item.id}`}
+                        >
+                          <div className="flex items-start gap-3">
+                            <input
+                              type="checkbox"
+                              checked={item.status === 'completed'}
+                              onChange={(e) => updateChecklistItem(item.id, { 
+                                status: e.target.checked ? 'completed' : 'incomplete' 
+                              })}
+                              className="mt-1 w-5 h-5 text-green-600 rounded focus:ring-2 focus:ring-green-500"
+                              data-testid={`checklist-checkbox-${item.id}`}
+                            />
+                            <div className="flex-1">
+                              <div className={`font-medium ${item.status === 'completed' ? 'line-through text-gray-400' : 'text-gray-900'}`}>
+                                {item.item_name}
+                              </div>
+                              {item.description && (
+                                <div className="text-sm text-gray-500 mt-1">{item.description}</div>
+                              )}
+                              
+                              {/* Value Input */}
+                              <div className="mt-3">
+                                <input
+                                  type="text"
+                                  value={item.value || ''}
+                                  onChange={(e) => {
+                                    // Update locally first
+                                    setChecklistItems(checklistItems.map(ci => 
+                                      ci.id === item.id ? { ...ci, value: e.target.value } : ci
+                                    ));
+                                  }}
+                                  onBlur={(e) => updateChecklistItem(item.id, { value: e.target.value })}
+                                  placeholder="記入内容を入力..."
+                                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  data-testid={`checklist-value-${item.id}`}
+                                />
+                              </div>
+
+                              {/* Notes */}
+                              {item.notes && (
+                                <div className="mt-2 text-xs text-gray-500 bg-gray-50 rounded p-2">
+                                  📝 {item.notes}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                )}
-              </div>
-            ))}
+                );
+              })
+            )}
           </div>
         )}
 
