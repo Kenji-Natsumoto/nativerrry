@@ -90,10 +90,10 @@ const Dashboard = () => {
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-3xl font-bold text-gray-900" data-testid="dashboard-title">
-                アプリネイティブ化サポート
+                nativarrry（ネイティバリー）
               </h1>
               <p className="mt-1 text-sm text-gray-500">
-                iOS & Android ストア申請をスムーズに
+                ネイティブアプリ申請支援ツール - iOS & Android
               </p>
             </div>
             <button
