@@ -241,19 +241,17 @@ def test_generate_default_tasks(project_id):
 def test_task_completion(task_id):
     """PATCH /api/tasks/{task_id}/complete - タスク完了状態更新テスト"""
     try:
-        # タスクを完了状態にする
-        response = requests.patch(f"{BASE_URL}/tasks/{task_id}/complete", 
-                                headers=HEADERS, 
-                                json={"completed": True})
+        # タスクを完了状態にする（クエリパラメータとして送信）
+        response = requests.patch(f"{BASE_URL}/tasks/{task_id}/complete?completed=true", 
+                                headers=HEADERS)
         
         if response.status_code == 200:
             task = response.json()
             
             if task.get("completed") == True and task.get("status") == "completed" and task.get("completed_at"):
                 # 未完了状態に戻すテスト
-                response2 = requests.patch(f"{BASE_URL}/tasks/{task_id}/complete", 
-                                         headers=HEADERS, 
-                                         json={"completed": False})
+                response2 = requests.patch(f"{BASE_URL}/tasks/{task_id}/complete?completed=false", 
+                                         headers=HEADERS)
                 
                 if response2.status_code == 200:
                     task2 = response2.json()
