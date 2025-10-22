@@ -263,20 +263,16 @@ const ProjectDetail = () => {
     return null;
   }
 
-  const tasksByPhase = {
-    preparation: tasks.filter(t => t.phase === 'preparation'),
-    development: tasks.filter(t => t.phase === 'development'),
-    submission: tasks.filter(t => t.phase === 'submission'),
-    review: tasks.filter(t => t.phase === 'review')
-  };
-
-  const completedTasks = tasks.filter(t => t.status === 'completed').length;
-  const totalTasks = tasks.length;
+  // Calculate statistics
+  const allTasks = tasksByPhase.flatMap(phase => phase.tasks || []);
+  const completedTasks = allTasks.filter(t => t.completed).length;
+  const totalTasks = allTasks.length;
   const completedChecklist = checklistItems.filter(i => i.status === 'completed').length;
   const totalChecklist = checklistItems.length;
 
   const tabs = [
     { id: 'overview', label: '概要', icon: LayoutDashboard },
+    { id: 'schedule', label: 'スケジュール', icon: Calendar },
     { id: 'tasks', label: 'タスク', icon: ListTodo },
     { id: 'checklist', label: 'チェックリスト', icon: CheckSquare },
     { id: 'rejections', label: 'リジェクト対応', icon: AlertTriangle },
