@@ -556,6 +556,43 @@ async def delete_checklist_item(item_id: str):
     
     return {"message": "Checklist item deleted successfully"}
 
+@api_router.post("/projects/{project_id}/generate-default-checklist")
+async def generate_default_checklist(project_id: str):
+    """既存プロジェクトにデフォルトチェックリストを生成"""
+    project = await db.projects.find_one({"id": project_id}, {"_id": 0})
+    
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+    
+    # 既存のデフォルトチェックリストを削除
+    await db.checklist_items.delete_many({"project_id": project_id, "is_default": True})
+    
+    # 新しいデフォルトチェックリストを生成
+    default_checklist = get_default_checklist_for_platform(project["platform"])
+    items_created = 0
+    
+    for checklist_template in default_checklist:
+        checklist_obj = ChecklistItem(
+            project_id=project_id,
+            platform=checklist_template["platform"],
+            category=checklist_template["category"],
+            item_name=checklist_template["title"],
+            description=checklist_template["description"],
+            order=checklist_template["order"],
+            is_default=True,
+            status="incomplete"
+        )
+        
+        doc = checklist_obj.model_dump()
+        doc = serialize_datetime(doc)
+        await db.checklist_items.insert_one(doc)
+        items_created += 1
+    
+    return {
+        "message": "デフォルトチェックリストを生成しました",
+        "items_created": items_created
+    }
+
 
 # ========== Rejection Endpoints ==========
 
