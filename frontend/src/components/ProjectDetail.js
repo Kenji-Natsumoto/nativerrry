@@ -26,6 +26,8 @@ const ProjectDetail = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [project, setProject] = useState(null);
   const [tasks, setTasks] = useState([]);
+  const [tasksByPhase, setTasksByPhase] = useState([]);
+  const [phases, setPhases] = useState([]);
   const [checklistItems, setChecklistItems] = useState([]);
   const [rejections, setRejections] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,6 +36,13 @@ const ProjectDetail = () => {
   const [aiMessage, setAiMessage] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
   const [aiResponse, setAiResponse] = useState(null);
+  
+  // Schedule state
+  const [editingSchedule, setEditingSchedule] = useState(false);
+  const [scheduleData, setScheduleData] = useState({
+    start_date: '',
+    publish_date: ''
+  });
 
   useEffect(() => {
     loadProjectData();
