@@ -50,17 +50,25 @@ const ProjectDetail = () => {
 
   const loadProjectData = async () => {
     try {
-      const [projectRes, tasksRes, checklistRes, rejectionsRes] = await Promise.all([
+      const [projectRes, tasksByPhaseRes, phasesRes, checklistRes, rejectionsRes] = await Promise.all([
         axios.get(`${API}/projects/${projectId}`),
-        axios.get(`${API}/tasks?project_id=${projectId}`),
+        axios.get(`${API}/projects/${projectId}/tasks`),
+        axios.get(`${API}/phases`),
         axios.get(`${API}/checklist?project_id=${projectId}`),
         axios.get(`${API}/rejections?project_id=${projectId}`)
       ]);
       
       setProject(projectRes.data);
-      setTasks(tasksRes.data);
+      setTasksByPhase(tasksByPhaseRes.data.tasks_by_phase || []);
+      setPhases(phasesRes.data.phases || []);
       setChecklistItems(checklistRes.data);
       setRejections(rejectionsRes.data);
+      
+      // Initialize schedule data
+      setScheduleData({
+        start_date: projectRes.data.start_date ? projectRes.data.start_date.split('T')[0] : '',
+        publish_date: projectRes.data.publish_date ? projectRes.data.publish_date.split('T')[0] : ''
+      });
     } catch (error) {
       console.error('Failed to load project data:', error);
       alert('プロジェクトの読み込みに失敗しました');
