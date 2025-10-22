@@ -265,17 +265,53 @@ backend:
         comment: "プロジェクトタスク一覧のフェーズ別取得が正常に動作。タスクがフェーズごとにグループ化され、必須フィールド（id, title, phase, step_number等）が正しく含まれることを確認。"
 
 frontend:
-  - task: "フェーズ2実装（未実施）"
-    implemented: false
-    working: "NA"
-    file: "N/A"
+  - task: "Dashboard - スケジュール入力フィールド追加"
+    implemented: true
+    working: true
+    file: "frontend/src/components/Dashboard.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "プロジェクト作成モーダルに「ネイティブ申請開始日」と「公開日（目標）」の日付入力フィールドを追加。動作確認済み。"
+
+  - task: "ProjectDetail - スケジュールタブ実装"
+    implemented: true
+    working: true
+    file: "frontend/src/components/ProjectDetail.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "スケジュールタブを新規作成。開始日・公開日の表示・編集機能、予定期間の自動計算、フェーズ別進捗バーを実装。動作確認済み。"
+
+  - task: "ProjectDetail - タスクタブ拡張"
+    implemented: true
+    working: true
+    file: "frontend/src/components/ProjectDetail.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "タスクタブを大幅拡張。フェーズごとのアコーディオン表示、チェックボックス（完了/未完了）、メモ入力欄、ステップ番号・所要日数・担当者・優先度・プラットフォーム固有情報の表示を実装。デフォルトタスク生成ボタンを追加。動作確認済み。"
+
+  - task: "アプリタイトル更新"
+    implemented: true
+    working: true
+    file: "frontend/src/components/Dashboard.js"
     stuck_count: 0
     priority: "medium"
     needs_retesting: false
     status_history:
-      - working: "NA"
+      - working: true
         agent: "main"
-        comment: "フェーズ2はバックエンドのみ。フロントエンドはフェーズ3で実装予定。"
+        comment: "ダッシュボードのタイトルを「nativarrry（ネイティバリー）」に更新。動作確認済み。"
 
 metadata:
   created_by: "main_agent"
