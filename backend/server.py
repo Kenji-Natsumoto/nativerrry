@@ -305,6 +305,87 @@ async def delete_project(project_id: str):
     
     return {"message": "Project deleted successfully"}
 
+@api_router.post("/projects/{project_id}/generate-default-tasks")
+async def generate_default_tasks(project_id: str):
+    """既存プロジェクトにデフォルトタスクを生成"""
+    project = await db.projects.find_one({"id": project_id}, {"_id": 0})
+    
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+    
+    # 既存のデフォルトタスクを削除
+    await db.tasks.delete_many({"project_id": project_id, "is_default": True})
+    
+    # 新しいデフォルトタスクを生成
+    tasks_created = await generate_default_tasks_for_project(project_id, project["platform"])
+    
+    return {
+        "message": "デフォルトタスクを生成しました",
+        "tasks_created": tasks_created
+    }
+
+@api_router.patch("/projects/{project_id}/schedule")
+async def update_project_schedule(project_id: str, start_date: Optional[datetime] = None, publish_date: Optional[datetime] = None):
+    """プロジェクトのスケジュールを更新"""
+    update_data = {}
+    
+    if start_date is not None:
+        update_data['start_date'] = start_date.isoformat()
+    if publish_date is not None:
+        update_data['publish_date'] = publish_date.isoformat()
+    
+    update_data['updated_at'] = datetime.now(timezone.utc).isoformat()
+    
+    result = await db.projects.update_one(
+        {"id": project_id},
+        {"$set": update_data}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Project not found")
+    
+    project = await db.projects.find_one({"id": project_id}, {"_id": 0})
+    deserialize_datetime(project, ['created_at', 'updated_at', 'start_date', 'publish_date'])
+    return project
+
+@api_router.get("/projects/{project_id}/tasks")
+async def get_project_tasks_by_phase(project_id: str, phase_number: Optional[int] = None, completed: Optional[str] = "all"):
+    """プロジェクトのタスク一覧をフェーズ別に取得"""
+    project = await db.projects.find_one({"id": project_id}, {"_id": 0})
+    
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+    
+    # クエリ構築
+    query = {"project_id": project_id}
+    if phase_number is not None:
+        query["phase_number"] = phase_number
+    if completed != "all":
+        query["completed"] = completed == "true"
+    
+    # タスクを取得
+    tasks = await db.tasks.find(query, {"_id": 0}).sort([("phase_number", 1), ("order", 1)]).to_list(1000)
+    
+    for task in tasks:
+        deserialize_datetime(task, ['created_at', 'due_date', 'completed_at'])
+    
+    # フェーズごとにグループ化
+    tasks_by_phase = {}
+    for task in tasks:
+        phase_num = task.get('phase_number', 0)
+        if phase_num not in tasks_by_phase:
+            tasks_by_phase[phase_num] = {
+                "phase_number": phase_num,
+                "phase_name": task.get('phase', 'Unknown'),
+                "tasks": []
+            }
+        tasks_by_phase[phase_num]["tasks"].append(task)
+    
+    return {
+        "project_id": project_id,
+        "tasks_by_phase": list(tasks_by_phase.values())
+    }
+
 
 # ========== Task Endpoints ==========
 
