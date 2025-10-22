@@ -689,17 +689,6 @@ async def delete_file_from_checklist(item_id: str, filename: str):
     
     return {"message": "File deleted successfully"}
 
-@api_router.get("/uploads/{filename}")
-async def download_file(filename: str):
-    """ファイルをダウンロード"""
-    file_path = Path("/app/uploads") / filename
-    
-    if not file_path.exists():
-        raise HTTPException(status_code=404, detail="File not found")
-    
-    return FileResponse(file_path)
-
-
 # ========== Rejection Endpoints ==========
 
 @api_router.post("/rejections", response_model=Rejection)
