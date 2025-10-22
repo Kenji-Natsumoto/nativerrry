@@ -22,6 +22,8 @@ import {
   Image as ImageIcon,
   X
 } from 'lucide-react';
+import Footer from './Footer';
+import ThemeToggle from './ThemeToggle';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
