@@ -834,6 +834,250 @@ const ProjectDetail = () => {
           </div>
         )}
 
+        {/* Report Tab */}
+        {activeTab === 'report' && (
+          <div className="space-y-6" data-testid="report-tab">
+            {/* Overall Progress */}
+            <div className="bg-white rounded-lg shadow-sm border p-6">
+              <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
+                <Target className="w-5 h-5 text-blue-600" />
+                全体進捗サマリー
+              </h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* Task Progress Circle */}
+                <div className="text-center">
+                  <div className="relative inline-flex items-center justify-center">
+                    <svg className="w-32 h-32">
+                      <circle
+                        className="text-gray-200"
+                        strokeWidth="8"
+                        stroke="currentColor"
+                        fill="transparent"
+                        r="56"
+                        cx="64"
+                        cy="64"
+                      />
+                      <circle
+                        className="text-blue-600"
+                        strokeWidth="8"
+                        strokeDasharray={`${2 * Math.PI * 56}`}
+                        strokeDashoffset={`${2 * Math.PI * 56 * (1 - (totalTasks > 0 ? completedTasks / totalTasks : 0))}`}
+                        strokeLinecap="round"
+                        stroke="currentColor"
+                        fill="transparent"
+                        r="56"
+                        cx="64"
+                        cy="64"
+                        style={{ transform: 'rotate(-90deg)', transformOrigin: '50% 50%' }}
+                      />
+                    </svg>
+                    <span className="absolute text-2xl font-bold text-gray-900">
+                      {totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0}%
+                    </span>
+                  </div>
+                  <div className="mt-3 text-sm font-medium text-gray-700">タスク完了率</div>
+                  <div className="text-xs text-gray-500">{completedTasks}/{totalTasks} 完了</div>
+                </div>
+
+                {/* Checklist Progress Circle */}
+                <div className="text-center">
+                  <div className="relative inline-flex items-center justify-center">
+                    <svg className="w-32 h-32">
+                      <circle
+                        className="text-gray-200"
+                        strokeWidth="8"
+                        stroke="currentColor"
+                        fill="transparent"
+                        r="56"
+                        cx="64"
+                        cy="64"
+                      />
+                      <circle
+                        className="text-green-600"
+                        strokeWidth="8"
+                        strokeDasharray={`${2 * Math.PI * 56}`}
+                        strokeDashoffset={`${2 * Math.PI * 56 * (1 - (totalChecklist > 0 ? completedChecklist / totalChecklist : 0))}`}
+                        strokeLinecap="round"
+                        stroke="currentColor"
+                        fill="transparent"
+                        r="56"
+                        cx="64"
+                        cy="64"
+                        style={{ transform: 'rotate(-90deg)', transformOrigin: '50% 50%' }}
+                      />
+                    </svg>
+                    <span className="absolute text-2xl font-bold text-gray-900">
+                      {totalChecklist > 0 ? Math.round((completedChecklist / totalChecklist) * 100) : 0}%
+                    </span>
+                  </div>
+                  <div className="mt-3 text-sm font-medium text-gray-700">チェックリスト完了率</div>
+                  <div className="text-xs text-gray-500">{completedChecklist}/{totalChecklist} 完了</div>
+                </div>
+
+                {/* Stats Summary */}
+                <div className="space-y-4">
+                  <div className="bg-blue-50 rounded-lg p-4">
+                    <div className="text-sm text-blue-600 font-medium">総タスク数</div>
+                    <div className="text-3xl font-bold text-blue-900">{totalTasks}</div>
+                  </div>
+                  <div className="bg-orange-50 rounded-lg p-4">
+                    <div className="text-sm text-orange-600 font-medium">期日超過</div>
+                    <div className="text-3xl font-bold text-orange-900">{overdueTasks}</div>
+                  </div>
+                  <div className="bg-red-50 rounded-lg p-4">
+                    <div className="text-sm text-red-600 font-medium">リジェクト</div>
+                    <div className="text-3xl font-bold text-red-900">{rejections.length}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Phase Analysis */}
+            <div className="bg-white rounded-lg shadow-sm border p-6">
+              <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-green-600" />
+                フェーズ別分析
+              </h2>
+              
+              <div className="space-y-4">
+                {tasksByPhase.map((phase) => {
+                  const phaseCompletedTasks = phase.tasks.filter(t => t.completed).length;
+                  const phaseTotalTasks = phase.tasks.length;
+                  const progress = phaseTotalTasks > 0 ? Math.round((phaseCompletedTasks / phaseTotalTasks) * 100) : 0;
+                  const overdueInPhase = phase.tasks.filter(t => {
+                    if (!t.due_date || t.completed) return false;
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    const due = new Date(t.due_date);
+                    due.setHours(0, 0, 0, 0);
+                    return due < today;
+                  }).length;
+                  
+                  return (
+                    <div key={phase.phase_number} className="border rounded-lg p-5 hover:bg-gray-50 transition-colors">
+                      <div className="flex items-center justify-between mb-3">
+                        <div>
+                          <div className="font-semibold text-gray-900">
+                            フェーズ {phase.phase_number}: {phase.phase_name}
+                          </div>
+                          <div className="text-sm text-gray-500 mt-1">
+                            {phaseCompletedTasks}/{phaseTotalTasks} 完了
+                            {overdueInPhase > 0 && (
+                              <span className="ml-3 text-orange-600">⚠ 期日超過: {overdueInPhase}件</span>
+                            )}
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-2xl font-bold text-blue-600">{progress}%</div>
+                        </div>
+                      </div>
+                      
+                      <div className="w-full bg-gray-200 rounded-full h-3">
+                        <div 
+                          className={`h-3 rounded-full transition-all duration-300 ${
+                            progress === 100 ? 'bg-green-500' : 
+                            progress >= 50 ? 'bg-blue-500' : 
+                            'bg-yellow-500'
+                          }`}
+                          style={{ width: `${progress}%` }}
+                        ></div>
+                      </div>
+                      
+                      <div className="mt-3 grid grid-cols-3 gap-4 text-sm">
+                        <div>
+                          <span className="text-gray-500">未完了:</span>
+                          <span className="ml-2 font-medium text-gray-900">{phaseTotalTasks - phaseCompletedTasks}</span>
+                        </div>
+                        <div>
+                          <span className="text-gray-500">進行中:</span>
+                          <span className="ml-2 font-medium text-gray-900">
+                            {phase.tasks.filter(t => !t.completed && t.due_date).length}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-gray-500">完了:</span>
+                          <span className="ml-2 font-medium text-green-600">{phaseCompletedTasks}</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Rejection Analysis */}
+            {rejections.length > 0 && (
+              <div className="bg-white rounded-lg shadow-sm border p-6">
+                <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
+                  <AlertTriangle className="w-5 h-5 text-red-600" />
+                  リジェクト分析
+                </h2>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Platform breakdown */}
+                  <div>
+                    <h3 className="text-sm font-medium text-gray-700 mb-3">プラットフォーム別</h3>
+                    <div className="space-y-3">
+                      {['iOS', 'Android'].map(platform => {
+                        const count = rejections.filter(r => r.platform === platform).length;
+                        const percentage = rejections.length > 0 ? Math.round((count / rejections.length) * 100) : 0;
+                        return (
+                          <div key={platform}>
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-sm text-gray-600">{platform}</span>
+                              <span className="text-sm font-medium text-gray-900">{count}件 ({percentage}%)</span>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-2">
+                              <div 
+                                className="bg-red-500 h-2 rounded-full"
+                                style={{ width: `${percentage}%` }}
+                              ></div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Status breakdown */}
+                  <div>
+                    <h3 className="text-sm font-medium text-gray-700 mb-3">対応状況</h3>
+                    <div className="space-y-3">
+                      {[
+                        { status: 'open', label: '対応中' },
+                        { status: 'in_progress', label: '進行中' },
+                        { status: 'resolved', label: '解決済み' }
+                      ].map(({ status, label }) => {
+                        const count = rejections.filter(r => r.status === status).length;
+                        const percentage = rejections.length > 0 ? Math.round((count / rejections.length) * 100) : 0;
+                        return (
+                          <div key={status}>
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-sm text-gray-600">{label}</span>
+                              <span className="text-sm font-medium text-gray-900">{count}件 ({percentage}%)</span>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-2">
+                              <div 
+                                className={`h-2 rounded-full ${
+                                  status === 'resolved' ? 'bg-green-500' :
+                                  status === 'in_progress' ? 'bg-yellow-500' :
+                                  'bg-orange-500'
+                                }`}
+                                style={{ width: `${percentage}%` }}
+                              ></div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Checklist Tab */}
         {activeTab === 'checklist' && (
           <div className="space-y-6" data-testid="checklist-tab">
