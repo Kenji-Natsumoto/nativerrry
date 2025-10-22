@@ -791,7 +791,7 @@ const ProjectDetail = () => {
             </div>
 
             {tasksByPhase.length === 0 ? (
-              <div className="bg-white rounded-lg shadow-sm border p-12 text-center">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-12 text-center">
                 <ListTodo className="mx-auto h-12 w-12 text-gray-400" />
                 <h3 className="mt-2 text-sm font-medium text-gray-900">タスクがありません</h3>
                 <p className="mt-1 text-sm text-gray-500">
@@ -1173,7 +1173,7 @@ const ProjectDetail = () => {
             </div>
 
             {checklistItems.length === 0 ? (
-              <div className="bg-white rounded-lg shadow-sm border p-12 text-center">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-12 text-center">
                 <CheckSquare className="mx-auto h-12 w-12 text-gray-400" />
                 <h3 className="mt-2 text-sm font-medium text-gray-900">チェックリスト項目がありません</h3>
                 <p className="mt-1 text-sm text-gray-500">
@@ -1391,7 +1391,7 @@ const ProjectDetail = () => {
             </div>
 
             {rejections.length === 0 ? (
-              <div className="bg-white rounded-lg shadow-sm border p-12 text-center">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-12 text-center">
                 <AlertTriangle className="mx-auto h-12 w-12 text-gray-400" />
                 <h3 className="mt-2 text-sm font-medium text-gray-900">リジェクト履歴がありません</h3>
                 <p className="mt-1 text-sm text-gray-500">
