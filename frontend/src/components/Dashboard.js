@@ -228,7 +228,7 @@ const Dashboard = () => {
             <form onSubmit={handleCreateProject}>
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     プロジェクト名 *
                   </label>
                   <input
@@ -237,21 +237,21 @@ const Dashboard = () => {
                     required
                     value={newProject.name}
                     onChange={(e) => setNewProject({ ...newProject, name: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="例: My Awesome App"
                     data-testid="project-name-input"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="platform" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="platform" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     プラットフォーム *
                   </label>
                   <select
                     id="platform"
                     value={newProject.platform}
                     onChange={(e) => setNewProject({ ...newProject, platform: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     data-testid="platform-select"
                   >
                     <option value="Both">両方 (iOS & Android)</option>
@@ -261,7 +261,7 @@ const Dashboard = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     説明
                   </label>
                   <textarea
@@ -269,7 +269,7 @@ const Dashboard = () => {
                     value={newProject.description}
                     onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
                     rows="3"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="プロジェクトの簡単な説明を入力してください"
                     data-testid="project-description-input"
                   />
