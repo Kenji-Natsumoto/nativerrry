@@ -201,6 +201,36 @@ async def get_ai_response(message: str, system_message: str = "You are a helpful
         logger.error(f"AI response error: {str(e)}")
         raise HTTPException(status_code=500, detail=f"AI service error: {str(e)}")
 
+async def generate_default_tasks_for_project(project_id: str, platform: str) -> int:
+    """プロジェクトにデフォルトタスクを生成する"""
+    default_tasks = get_default_tasks_for_platform(platform)
+    tasks_created = 0
+    
+    for task_template in default_tasks:
+        task_obj = Task(
+            project_id=project_id,
+            title=task_template["title"],
+            description=task_template["description"],
+            phase=task_template["phase"],
+            step_number=task_template["step_number"],
+            phase_number=task_template["phase_number"],
+            estimated_days=task_template["estimated_days"],
+            assigned_to=task_template["assigned_to"],
+            platform_specific=task_template.get("platform_specific", ""),
+            priority=task_template["priority"],
+            order=task_template["order"],
+            is_default=True,
+            status="pending",
+            completed=False
+        )
+        
+        doc = task_obj.model_dump()
+        doc = serialize_datetime(doc)
+        await db.tasks.insert_one(doc)
+        tasks_created += 1
+    
+    return tasks_created
+
 
 # ========== Project Endpoints ==========
 
