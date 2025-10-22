@@ -257,7 +257,7 @@ const Dashboard = () => {
                   type="button"
                   onClick={() => {
                     setShowModal(false);
-                    setNewProject({ name: '', platform: 'Both', description: '' });
+                    setNewProject({ name: '', platform: 'Both', description: '', start_date: '', publish_date: '' });
                   }}
                   className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                   data-testid="cancel-button"
