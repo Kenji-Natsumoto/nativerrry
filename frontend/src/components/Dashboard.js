@@ -217,6 +217,9 @@ const Dashboard = () => {
         )}
       </main>
 
+      {/* Footer */}
+      <Footer />
+
       {/* New Project Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" data-testid="new-project-modal">
