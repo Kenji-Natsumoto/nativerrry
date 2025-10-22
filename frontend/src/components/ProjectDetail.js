@@ -297,6 +297,49 @@ const ProjectDetail = () => {
     }
   };
 
+  const uploadFileToChecklist = async (itemId, file) => {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      await axios.post(`${API}/checklist/${itemId}/upload`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      
+      // Reload checklist
+      const checklistRes = await axios.get(`${API}/checklist?project_id=${projectId}`);
+      setChecklistItems(checklistRes.data);
+    } catch (error) {
+      console.error('Failed to upload file:', error);
+      alert('ファイルのアップロードに失敗しました');
+    }
+  };
+
+  const deleteFileFromChecklist = async (itemId, filename) => {
+    if (!window.confirm('このファイルを削除しますか？')) return;
+    
+    try {
+      await axios.delete(`${API}/checklist/${itemId}/files/${filename}`);
+      // Reload checklist
+      const checklistRes = await axios.get(`${API}/checklist?project_id=${projectId}`);
+      setChecklistItems(checklistRes.data);
+    } catch (error) {
+      console.error('Failed to delete file:', error);
+      alert('ファイルの削除に失敗しました');
+    }
+  };
+
+  const getFileIcon = (mimeType) => {
+    if (mimeType.startsWith('image/')) return ImageIcon;
+    return FileIcon;
+  };
+
+  const isImageFile = (mimeType) => {
+    return mimeType.startsWith('image/');
+  };
+
   const deleteTask = async (taskId) => {
     if (!window.confirm('このタスクを削除しますか？')) return;
 
