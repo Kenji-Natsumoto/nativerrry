@@ -604,6 +604,100 @@ async def generate_default_checklist(project_id: str):
         "items_created": items_created
     }
 
+@api_router.post("/checklist/{item_id}/upload")
+async def upload_file_to_checklist(item_id: str, file: UploadFile = File(...)):
+    """チェックリスト項目にファイルをアップロード"""
+    # Check if checklist item exists
+    checklist_item = await db.checklist_items.find_one({"id": item_id}, {"_id": 0})
+    if not checklist_item:
+        raise HTTPException(status_code=404, detail="Checklist item not found")
+    
+    # Create upload directory if not exists
+    upload_dir = Path("/app/uploads")
+    upload_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Generate unique filename
+    file_extension = Path(file.filename).suffix
+    unique_filename = f"{uuid.uuid4()}{file_extension}"
+    file_path = upload_dir / unique_filename
+    
+    # Save file
+    try:
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+    except Exception as e:
+        logger.error(f"Failed to save file: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to save file")
+    
+    # Get file size
+    file_size = os.path.getsize(file_path)
+    
+    # Create file attachment object
+    file_attachment = {
+        "filename": unique_filename,
+        "original_name": file.filename,
+        "file_path": str(file_path),
+        "file_size": file_size,
+        "mime_type": file.content_type or "application/octet-stream",
+        "uploaded_at": datetime.now(timezone.utc).isoformat()
+    }
+    
+    # Add to checklist item's files array
+    await db.checklist_items.update_one(
+        {"id": item_id},
+        {"$push": {"files": file_attachment}}
+    )
+    
+    return {
+        "message": "File uploaded successfully",
+        "file": file_attachment
+    }
+
+@api_router.delete("/checklist/{item_id}/files/{filename}")
+async def delete_file_from_checklist(item_id: str, filename: str):
+    """チェックリスト項目からファイルを削除"""
+    # Check if checklist item exists
+    checklist_item = await db.checklist_items.find_one({"id": item_id}, {"_id": 0})
+    if not checklist_item:
+        raise HTTPException(status_code=404, detail="Checklist item not found")
+    
+    # Find file in files array
+    files = checklist_item.get("files", [])
+    file_to_delete = None
+    for f in files:
+        if f["filename"] == filename:
+            file_to_delete = f
+            break
+    
+    if not file_to_delete:
+        raise HTTPException(status_code=404, detail="File not found")
+    
+    # Delete physical file
+    try:
+        file_path = Path(file_to_delete["file_path"])
+        if file_path.exists():
+            file_path.unlink()
+    except Exception as e:
+        logger.error(f"Failed to delete file: {str(e)}")
+    
+    # Remove from database
+    await db.checklist_items.update_one(
+        {"id": item_id},
+        {"$pull": {"files": {"filename": filename}}}
+    )
+    
+    return {"message": "File deleted successfully"}
+
+@api_router.get("/uploads/{filename}")
+async def download_file(filename: str):
+    """ファイルをダウンロード"""
+    file_path = Path("/app/uploads") / filename
+    
+    if not file_path.exists():
+        raise HTTPException(status_code=404, detail="File not found")
+    
+    return FileResponse(file_path)
+
 
 # ========== Rejection Endpoints ==========
 
