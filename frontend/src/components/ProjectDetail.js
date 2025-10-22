@@ -1279,7 +1279,7 @@ const ProjectDetail = () => {
                                 {item.files && item.files.length > 0 && (
                                   <div className="mt-3 space-y-2">
                                     {item.files.map((file, idx) => {
-                                      const fileUrl = `${BACKEND_URL}/uploads/${file.filename}`;
+                                      const fileUrl = `${API}/uploads/${file.filename}`;
                                       const isImage = file.mime_type && file.mime_type.startsWith('image/');
                                       const isPdf = file.mime_type && file.mime_type === 'application/pdf';
                                       const isDoc = file.mime_type && (
