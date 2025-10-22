@@ -14,7 +14,9 @@ const Dashboard = () => {
   const [newProject, setNewProject] = useState({
     name: '',
     platform: 'Both',
-    description: ''
+    description: '',
+    start_date: '',
+    publish_date: ''
   });
 
   useEffect(() => {
