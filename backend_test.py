@@ -319,12 +319,9 @@ def test_project_schedule(project_id):
         new_start_date = "2024-02-01T10:00:00Z"
         new_publish_date = "2024-06-15T00:00:00Z"
         
-        response = requests.patch(f"{BASE_URL}/projects/{project_id}/schedule", 
-                                headers=HEADERS, 
-                                json={
-                                    "start_date": new_start_date,
-                                    "publish_date": new_publish_date
-                                })
+        # クエリパラメータとして送信
+        response = requests.patch(f"{BASE_URL}/projects/{project_id}/schedule?start_date={new_start_date}&publish_date={new_publish_date}", 
+                                headers=HEADERS)
         
         if response.status_code == 200:
             project = response.json()
