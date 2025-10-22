@@ -689,6 +689,25 @@ async def delete_file_from_checklist(item_id: str, filename: str):
     
     return {"message": "File deleted successfully"}
 
+@api_router.get("/uploads/{filename}")
+async def get_uploaded_file(filename: str):
+    """アップロードされたファイルを取得"""
+    file_path = Path("/app/uploads") / filename
+    
+    if not file_path.exists():
+        raise HTTPException(status_code=404, detail="File not found")
+    
+    # Determine media type based on file extension
+    import mimetypes
+    media_type, _ = mimetypes.guess_type(str(file_path))
+    
+    return FileResponse(
+        file_path,
+        media_type=media_type or "application/octet-stream",
+        filename=filename
+    )
+
+
 # ========== Rejection Endpoints ==========
 
 @api_router.post("/rejections", response_model=Rejection)
