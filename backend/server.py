@@ -66,10 +66,19 @@ class Task(BaseModel):
     project_id: str
     title: str
     description: Optional[str] = None
-    phase: str  # "preparation", "development", "submission", "review"
+    phase: str  # フェーズ名（例: "アカウント登録"）
     status: str = "pending"  # "pending", "in_progress", "completed"
     due_date: Optional[datetime] = None
     priority: str = "medium"  # "low", "medium", "high"
+    completed: bool = False  # 完了フラグ
+    memo: Optional[str] = None  # メモ/ノート
+    step_number: Optional[str] = None  # ステップ番号（例: "1.1", "2.3"）
+    phase_number: Optional[int] = None  # フェーズ番号（1-9）
+    estimated_days: Optional[str] = None  # 所要日数（例: "1-3日", "即時"）
+    assigned_to: Optional[str] = None  # 担当者（例: "開発者", "Apple/Google"）
+    platform_specific: Optional[str] = None  # プラットフォーム固有情報
+    order: int = 0  # フェーズ内での表示順序
+    is_default: bool = False  # デフォルトタスクかどうか
     completed_at: Optional[datetime] = None
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -80,6 +89,13 @@ class TaskCreate(BaseModel):
     phase: str
     due_date: Optional[datetime] = None
     priority: str = "medium"
+    step_number: Optional[str] = None
+    phase_number: Optional[int] = None
+    estimated_days: Optional[str] = None
+    assigned_to: Optional[str] = None
+    platform_specific: Optional[str] = None
+    order: int = 0
+    is_default: bool = False
 
 class TaskUpdate(BaseModel):
     title: Optional[str] = None
@@ -88,6 +104,8 @@ class TaskUpdate(BaseModel):
     status: Optional[str] = None
     due_date: Optional[datetime] = None
     priority: Optional[str] = None
+    completed: Optional[bool] = None
+    memo: Optional[str] = None
 
 
 class ChecklistItem(BaseModel):
