@@ -277,7 +277,7 @@ async def get_project(project_id: str):
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
     
-    deserialize_datetime(project, ['created_at', 'updated_at'])
+    deserialize_datetime(project, ['created_at', 'updated_at', 'start_date', 'publish_date'])
     return project
 
 @api_router.put("/projects/{project_id}", response_model=Project)
