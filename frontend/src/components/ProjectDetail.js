@@ -818,7 +818,7 @@ const ProjectDetail = () => {
                     {phase.tasks.map((task) => (
                       <div
                         key={task.id}
-                        className="border rounded-lg p-4 hover:bg-gray-50 transition-colors"
+                        className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
                         data-testid={`task-${task.id}`}
                       >
                         <div className="flex items-start gap-3">
@@ -1214,7 +1214,7 @@ const ProjectDetail = () => {
                       {platformItems.map((item) => (
                         <div
                           key={item.id}
-                          className="border rounded-lg p-4 hover:bg-gray-50 transition-colors"
+                          className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
                           data-testid={`checklist-item-${item.id}`}
                         >
                           <div className="flex items-start gap-3">
