@@ -1247,6 +1247,75 @@ const ProjectDetail = () => {
                                 />
                               </div>
 
+                              {/* File Upload */}
+                              <div className="mt-3">
+                                <label className="block text-xs font-medium text-gray-700 mb-2">ファイル添付</label>
+                                <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 hover:border-blue-400 transition-colors">
+                                  <input
+                                    type="file"
+                                    id={`file-upload-${item.id}`}
+                                    onChange={(e) => {
+                                      const file = e.target.files[0];
+                                      if (file) uploadFileToChecklist(item.id, file);
+                                      e.target.value = '';
+                                    }}
+                                    className="hidden"
+                                    accept="image/*,.pdf,.doc,.docx"
+                                  />
+                                  <label
+                                    htmlFor={`file-upload-${item.id}`}
+                                    className="flex flex-col items-center cursor-pointer"
+                                  >
+                                    <Upload className="w-8 h-8 text-gray-400 mb-2" />
+                                    <span className="text-sm text-gray-600">クリックしてファイルを選択</span>
+                                    <span className="text-xs text-gray-400 mt-1">画像、PDF、Word対応</span>
+                                  </label>
+                                </div>
+
+                                {/* Uploaded Files */}
+                                {item.files && item.files.length > 0 && (
+                                  <div className="mt-3 space-y-2">
+                                    {item.files.map((file, idx) => (
+                                      <div key={idx} className="flex items-center gap-3 p-2 bg-gray-50 rounded-lg border">
+                                        {isImageFile(file.mime_type) ? (
+                                          <img
+                                            src={`${API.replace('/api', '')}/uploads/${file.filename}`}
+                                            alt={file.original_name}
+                                            className="w-12 h-12 object-cover rounded"
+                                          />
+                                        ) : (
+                                          <div className="w-12 h-12 flex items-center justify-center bg-gray-200 rounded">
+                                            <FileIcon className="w-6 h-6 text-gray-500" />
+                                          </div>
+                                        )}
+                                        <div className="flex-1 min-w-0">
+                                          <div className="text-sm font-medium text-gray-900 truncate">
+                                            {file.original_name}
+                                          </div>
+                                          <div className="text-xs text-gray-500">
+                                            {(file.file_size / 1024).toFixed(1)} KB
+                                          </div>
+                                        </div>
+                                        <a
+                                          href={`${API.replace('/api', '')}/uploads/${file.filename}`}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="px-3 py-1 text-xs text-blue-600 hover:text-blue-700"
+                                        >
+                                          表示
+                                        </a>
+                                        <button
+                                          onClick={() => deleteFileFromChecklist(item.id, file.filename)}
+                                          className="p-1 text-red-600 hover:bg-red-50 rounded"
+                                        >
+                                          <X className="w-4 h-4" />
+                                        </button>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+
                               {/* Notes */}
                               {item.notes && (
                                 <div className="mt-2 text-xs text-gray-500 bg-gray-50 rounded p-2">
