@@ -16,7 +16,11 @@ import {
   Loader2,
   BarChart3,
   TrendingUp,
-  Target
+  Target,
+  Upload,
+  File as FileIcon,
+  Image as ImageIcon,
+  X
 } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
