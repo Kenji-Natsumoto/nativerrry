@@ -137,6 +137,7 @@ class ChecklistItemCreate(BaseModel):
 
 class ChecklistItemUpdate(BaseModel):
     status: Optional[str] = None
+    value: Optional[str] = None
     notes: Optional[str] = None
 
 
