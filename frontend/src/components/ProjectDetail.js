@@ -1279,46 +1279,71 @@ const ProjectDetail = () => {
                                 {item.files && item.files.length > 0 && (
                                   <div className="mt-3 space-y-2">
                                     {item.files.map((file, idx) => {
-                                      const imageUrl = `${BACKEND_URL}/uploads/${file.filename}`;
+                                      const fileUrl = `${BACKEND_URL}/uploads/${file.filename}`;
+                                      const isImage = file.mime_type && file.mime_type.startsWith('image/');
+                                      const isPdf = file.mime_type && file.mime_type === 'application/pdf';
+                                      const isDoc = file.mime_type && (
+                                        file.mime_type === 'application/msword' || 
+                                        file.mime_type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                                      );
+                                      
                                       return (
                                         <div key={idx} className="flex items-center gap-3 p-2 bg-gray-50 rounded-lg border">
-                                          {isImageFile(file.mime_type) ? (
-                                            <img
-                                              src={imageUrl}
-                                              alt={file.original_name}
-                                              className="w-12 h-12 object-cover rounded"
-                                              onError={(e) => {
-                                                console.error('Failed to load image:', imageUrl);
-                                                e.target.style.display = 'none';
-                                                e.target.nextSibling.style.display = 'flex';
-                                              }}
-                                            />
-                                          ) : null}
-                                          <div 
-                                            className="w-12 h-12 flex items-center justify-center bg-gray-200 rounded"
-                                            style={{ display: isImageFile(file.mime_type) ? 'none' : 'flex' }}
-                                          >
-                                            <FileIcon className="w-6 h-6 text-gray-500" />
+                                          {/* Thumbnail/Icon */}
+                                          <div className="w-12 h-12 flex items-center justify-center bg-gray-200 rounded flex-shrink-0">
+                                            {isImage ? (
+                                              <img
+                                                src={fileUrl}
+                                                alt={file.original_name}
+                                                className="w-12 h-12 object-cover rounded"
+                                                onError={(e) => {
+                                                  console.error('Failed to load image:', fileUrl);
+                                                  e.target.src = '';
+                                                  e.target.style.display = 'none';
+                                                  e.target.parentElement.innerHTML = '<svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>';
+                                                }}
+                                              />
+                                            ) : isPdf ? (
+                                              <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                              </svg>
+                                            ) : isDoc ? (
+                                              <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                              </svg>
+                                            ) : (
+                                              <FileIcon className="w-6 h-6 text-gray-500" />
+                                            )}
                                           </div>
+                                          
+                                          {/* File Info */}
                                           <div className="flex-1 min-w-0">
                                             <div className="text-sm font-medium text-gray-900 truncate">
                                               {file.original_name}
                                             </div>
                                             <div className="text-xs text-gray-500">
                                               {(file.file_size / 1024).toFixed(1)} KB
+                                              {isPdf && ' • PDF'}
+                                              {isDoc && ' • Word'}
+                                              {isImage && ' • 画像'}
                                             </div>
                                           </div>
+                                          
+                                          {/* View Button */}
                                           <a
-                                            href={imageUrl}
+                                            href={fileUrl}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="px-3 py-1 text-xs text-blue-600 hover:text-blue-700"
+                                            className="px-3 py-1 text-xs font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded"
                                           >
                                             表示
                                           </a>
+                                          
+                                          {/* Delete Button */}
                                           <button
                                             onClick={() => deleteFileFromChecklist(item.id, file.filename)}
                                             className="p-1 text-red-600 hover:bg-red-50 rounded"
+                                            title="削除"
                                           >
                                             <X className="w-4 h-4" />
                                           </button>
