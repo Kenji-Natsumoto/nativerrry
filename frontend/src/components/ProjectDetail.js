@@ -410,7 +410,7 @@ const ProjectDetail = () => {
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">読み込み中...</p>
+          <p className="mt-4 text-gray-600 dark:text-gray-300">読み込み中...</p>
         </div>
       </div>
     );
@@ -475,7 +475,7 @@ const ProjectDetail = () => {
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent" data-testid="project-name">
                   {project.name}
                 </h1>
-                <p className="text-sm text-gray-600 dark:text-gray-400">{project.platform}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-300 dark:text-gray-400">{project.platform}</p>
               </div>
             </div>
             
@@ -560,7 +560,7 @@ const ProjectDetail = () => {
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
                   <h2 className="text-xl font-semibold mb-2">プロジェクト概要</h2>
-                  <p className="text-gray-600">{project.description || 'プロジェクトの説明はありません'}</p>
+                  <p className="text-gray-600 dark:text-gray-300">{project.description || 'プロジェクトの説明はありません'}</p>
                 </div>
                 <div>
                   <span className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border ${getStatusInfo(project.status).color}`}>
@@ -634,7 +634,7 @@ const ProjectDetail = () => {
                           publish_date: project.publish_date ? project.publish_date.split('T')[0] : ''
                         });
                       }}
-                      className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-700"
+                      className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-700"
                     >
                       キャンセル
                     </button>
@@ -692,7 +692,7 @@ const ProjectDetail = () => {
 
               {project.start_date && project.publish_date && (
                 <div className="mt-6 bg-gray-50 rounded-lg p-4">
-                  <div className="text-sm text-gray-600">予定期間</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300">予定期間</div>
                   <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                     {Math.ceil((new Date(project.publish_date) - new Date(project.start_date)) / (1000 * 60 * 60 * 24))} 日間
                   </div>
@@ -713,7 +713,7 @@ const ProjectDetail = () => {
                     <div key={phase.phase_number} className="border rounded-lg p-4">
                       <div className="flex items-center justify-between mb-2">
                         <div className="font-medium text-gray-900 dark:text-gray-100">{phase.phase_name}</div>
-                        <div className="text-sm text-gray-600">
+                        <div className="text-sm text-gray-600 dark:text-gray-300">
                           {phaseCompletedTasks}/{phaseTotalTasks} 完了
                         </div>
                       </div>
@@ -839,7 +839,7 @@ const ProjectDetail = () => {
                                   {task.title}
                                 </div>
                                 {task.description && (
-                                  <div className="text-sm text-gray-600 mt-1">{task.description}</div>
+                                  <div className="text-sm text-gray-600 dark:text-gray-300 mt-1">{task.description}</div>
                                 )}
                                 <div className="flex items-center gap-4 mt-2 text-xs text-gray-500 dark:text-gray-400">
                                   {task.estimated_days && (
@@ -1105,7 +1105,7 @@ const ProjectDetail = () => {
                         return (
                           <div key={platform}>
                             <div className="flex items-center justify-between mb-1">
-                              <span className="text-sm text-gray-600">{platform}</span>
+                              <span className="text-sm text-gray-600 dark:text-gray-300">{platform}</span>
                               <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{count}件 ({percentage}%)</span>
                             </div>
                             <div className="w-full bg-gray-200 rounded-full h-2">
@@ -1134,7 +1134,7 @@ const ProjectDetail = () => {
                         return (
                           <div key={status}>
                             <div className="flex items-center justify-between mb-1">
-                              <span className="text-sm text-gray-600">{label}</span>
+                              <span className="text-sm text-gray-600 dark:text-gray-300">{label}</span>
                               <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{count}件 ({percentage}%)</span>
                             </div>
                             <div className="w-full bg-gray-200 rounded-full h-2">
@@ -1273,7 +1273,7 @@ const ProjectDetail = () => {
                                     className="flex flex-col items-center cursor-pointer"
                                   >
                                     <Upload className="w-8 h-8 text-gray-400 mb-2" />
-                                    <span className="text-sm text-gray-600">クリックしてファイルを選択</span>
+                                    <span className="text-sm text-gray-600 dark:text-gray-300">クリックしてファイルを選択</span>
                                     <span className="text-xs text-gray-400 mt-1">画像、PDF、Word対応</span>
                                   </label>
                                 </div>
@@ -1445,7 +1445,7 @@ const ProjectDetail = () => {
         {activeTab === 'ai' && (
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6" data-testid="ai-tab">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 dark:text-gray-100 mb-4">AIアシスタント</h2>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
               アプリストア申請に関する質問や、ガイドライン、ベストプラクティスについて聞いてみてください。
             </p>
             
