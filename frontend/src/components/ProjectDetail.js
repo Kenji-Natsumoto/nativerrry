@@ -13,7 +13,10 @@ import {
   Clock,
   Calendar,
   Send,
-  Loader2
+  Loader2,
+  BarChart3,
+  TrendingUp,
+  Target
 } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
