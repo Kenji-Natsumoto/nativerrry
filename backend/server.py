@@ -120,7 +120,10 @@ class ChecklistItem(BaseModel):
     item_name: str
     description: Optional[str] = None
     status: str = "incomplete"  # "incomplete", "in_progress", "completed"
+    value: Optional[str] = None  # 入力値
     notes: Optional[str] = None
+    order: int = 0  # 表示順序
+    is_default: bool = False  # デフォルトチェックリストかどうか
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 class ChecklistItemCreate(BaseModel):
@@ -129,6 +132,8 @@ class ChecklistItemCreate(BaseModel):
     category: str
     item_name: str
     description: Optional[str] = None
+    order: int = 0
+    is_default: bool = False
 
 class ChecklistItemUpdate(BaseModel):
     status: Optional[str] = None
