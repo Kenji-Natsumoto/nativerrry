@@ -277,7 +277,7 @@ const Dashboard = () => {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="start_date" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="start_date" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       ネイティブ申請開始日
                     </label>
                     <input
@@ -285,13 +285,13 @@ const Dashboard = () => {
                       id="start_date"
                       value={newProject.start_date}
                       onChange={(e) => setNewProject({ ...newProject, start_date: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       data-testid="project-start-date-input"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="publish_date" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="publish_date" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       公開日（目標）
                     </label>
                     <input
@@ -299,7 +299,7 @@ const Dashboard = () => {
                       id="publish_date"
                       value={newProject.publish_date}
                       onChange={(e) => setNewProject({ ...newProject, publish_date: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       data-testid="project-publish-date-input"
                     />
                   </div>
