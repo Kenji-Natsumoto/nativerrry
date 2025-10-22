@@ -1401,7 +1401,7 @@ const ProjectDetail = () => {
             ) : (
               <div className="space-y-4">
                 {rejections.map((rejection) => (
-                  <div key={rejection.id} className="bg-white rounded-lg shadow-sm border p-6" data-testid={`rejection-${rejection.id}`}>
+                  <div key={rejection.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6" data-testid={`rejection-${rejection.id}`}>
                     <div className="flex items-start justify-between mb-3">
                       <div>
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
