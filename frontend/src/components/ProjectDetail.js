@@ -300,6 +300,25 @@ const ProjectDetail = () => {
                 <p className="text-sm text-gray-500">{project.platform}</p>
               </div>
             </div>
+            <button
+              onClick={async () => {
+                if (window.confirm(`「${project.name}」を削除しますか？\nこの操作は取り消せません。`)) {
+                  try {
+                    await axios.delete(`${API}/projects/${projectId}`);
+                    alert('プロジェクトを削除しました');
+                    navigate('/');
+                  } catch (error) {
+                    console.error('Failed to delete project:', error);
+                    alert('プロジェクトの削除に失敗しました');
+                  }
+                }
+              }}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
+              data-testid="delete-project-button"
+            >
+              <Trash2 className="w-4 h-4" />
+              プロジェクトを削除
+            </button>
           </div>
         </div>
       </header>
