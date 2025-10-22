@@ -236,7 +236,13 @@ async def generate_default_tasks_for_project(project_id: str, platform: str) -> 
 
 @api_router.get("/")
 async def root():
-    return {"message": "App Native Submission Support API"}
+    return {"message": "nativarrry (ネイティバリー) API - Native App Submission Support"}
+
+@api_router.get("/phases")
+async def get_phases():
+    """フェーズ一覧を取得"""
+    phases = get_phases_summary()
+    return {"phases": phases}
 
 @api_router.post("/projects", response_model=Project)
 async def create_project(input: ProjectCreate):
