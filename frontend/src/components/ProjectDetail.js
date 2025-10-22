@@ -1443,7 +1443,7 @@ const ProjectDetail = () => {
 
         {/* AI Assistant Tab */}
         {activeTab === 'ai' && (
-          <div className="bg-white rounded-lg shadow-sm border p-6" data-testid="ai-tab">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6" data-testid="ai-tab">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">AIアシスタント</h2>
             <p className="text-gray-600 mb-6">
               アプリストア申請に関する質問や、ガイドライン、ベストプラクティスについて聞いてみてください。
