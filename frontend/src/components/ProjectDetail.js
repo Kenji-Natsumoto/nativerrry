@@ -1493,6 +1493,9 @@ const ProjectDetail = () => {
           </div>
         )}
       </main>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };
