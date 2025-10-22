@@ -458,28 +458,29 @@ const ProjectDetail = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex flex-col">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg shadow-sm border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
                 onClick={() => navigate('/')}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
                 data-testid="back-button"
               >
-                <ArrowLeft className="w-5 h-5" />
+                <ArrowLeft className="w-5 h-5 text-gray-700 dark:text-gray-300" />
               </button>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900" data-testid="project-name">
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent" data-testid="project-name">
                   {project.name}
                 </h1>
-                <p className="text-sm text-gray-500">{project.platform}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">{project.platform}</p>
               </div>
             </div>
             
             <div className="flex items-center gap-3">
+              <ThemeToggle />
               {/* Status Dropdown */}
               <div className="relative">
                 <select
