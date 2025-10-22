@@ -112,6 +112,14 @@ class TaskUpdate(BaseModel):
     memo: Optional[str] = None
 
 
+class FileAttachment(BaseModel):
+    filename: str
+    original_name: str
+    file_path: str
+    file_size: int
+    mime_type: str
+    uploaded_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
 class ChecklistItem(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
@@ -124,6 +132,7 @@ class ChecklistItem(BaseModel):
     status: str = "incomplete"  # "incomplete", "in_progress", "completed"
     value: Optional[str] = None  # 入力値
     notes: Optional[str] = None
+    files: List[FileAttachment] = []  # 添付ファイル
     order: int = 0  # 表示順序
     is_default: bool = False  # デフォルトチェックリストかどうか
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
