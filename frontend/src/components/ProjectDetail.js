@@ -266,6 +266,33 @@ const ProjectDetail = () => {
     }
   };
 
+  const generateDefaultChecklist = async () => {
+    if (!window.confirm('デフォルトチェックリストを生成しますか？既存のデフォルトチェックリストは削除されます。')) return;
+    
+    try {
+      await axios.post(`${API}/projects/${projectId}/generate-default-checklist`);
+      // Reload checklist
+      const checklistRes = await axios.get(`${API}/checklist?project_id=${projectId}`);
+      setChecklistItems(checklistRes.data);
+      alert('デフォルトチェックリストを生成しました');
+    } catch (error) {
+      console.error('Failed to generate default checklist:', error);
+      alert('デフォルトチェックリストの生成に失敗しました');
+    }
+  };
+
+  const updateChecklistItem = async (itemId, updates) => {
+    try {
+      await axios.put(`${API}/checklist/${itemId}`, updates);
+      // Reload checklist
+      const checklistRes = await axios.get(`${API}/checklist?project_id=${projectId}`);
+      setChecklistItems(checklistRes.data);
+    } catch (error) {
+      console.error('Failed to update checklist item:', error);
+      alert('チェックリスト項目の更新に失敗しました');
+    }
+  };
+
   const deleteTask = async (taskId) => {
     if (!window.confirm('このタスクを削除しますか？')) return;
 
