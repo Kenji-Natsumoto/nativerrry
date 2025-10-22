@@ -222,9 +222,9 @@ const Dashboard = () => {
 
       {/* New Project Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" data-testid="new-project-modal">
-          <div className="bg-white rounded-lg max-w-md w-full p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">新規プロジェクト作成</h2>
+        <div className="fixed inset-0 bg-black/70 dark:bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50" data-testid="new-project-modal">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full p-6 shadow-2xl">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">新規プロジェクト作成</h2>
             <form onSubmit={handleCreateProject}>
               <div className="space-y-4">
                 <div>
