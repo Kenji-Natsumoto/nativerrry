@@ -693,7 +693,7 @@ const ProjectDetail = () => {
               {project.start_date && project.publish_date && (
                 <div className="mt-6 bg-gray-50 rounded-lg p-4">
                   <div className="text-sm text-gray-600">予定期間</div>
-                  <div className="text-lg font-semibold text-gray-900">
+                  <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                     {Math.ceil((new Date(project.publish_date) - new Date(project.start_date)) / (1000 * 60 * 60 * 24))} 日間
                   </div>
                 </div>
@@ -712,7 +712,7 @@ const ProjectDetail = () => {
                   return (
                     <div key={phase.phase_number} className="border rounded-lg p-4">
                       <div className="flex items-center justify-between mb-2">
-                        <div className="font-medium text-gray-900">{phase.phase_name}</div>
+                        <div className="font-medium text-gray-900 dark:text-gray-100">{phase.phase_name}</div>
                         <div className="text-sm text-gray-600">
                           {phaseCompletedTasks}/{phaseTotalTasks} 完了
                         </div>
@@ -742,7 +742,7 @@ const ProjectDetail = () => {
                       <div key={task.id} className="border rounded-lg p-3 hover:bg-gray-50">
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
-                            <div className="font-medium text-gray-900">
+                            <div className="font-medium text-gray-900 dark:text-gray-100">
                               {task.step_number && (
                                 <span className="text-blue-600 mr-2">[{task.step_number}]</span>
                               )}
@@ -753,7 +753,7 @@ const ProjectDetail = () => {
                             </div>
                           </div>
                           <div className="ml-4 text-right">
-                            <div className="text-sm font-medium text-gray-900">
+                            <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
                               {new Date(task.due_date).toLocaleDateString('ja-JP')}
                             </div>
                             {status && (
@@ -793,7 +793,7 @@ const ProjectDetail = () => {
             {tasksByPhase.length === 0 ? (
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-12 text-center">
                 <ListTodo className="mx-auto h-12 w-12 text-gray-400" />
-                <h3 className="mt-2 text-sm font-medium text-gray-900">タスクがありません</h3>
+                <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">タスクがありません</h3>
                 <p className="mt-1 text-sm text-gray-500">
                   デフォルトタスクを生成してください
                 </p>
@@ -804,7 +804,7 @@ const ProjectDetail = () => {
                   <div className="bg-gray-50 dark:bg-gray-900/50 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-900">
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                           フェーズ {phase.phase_number}: {phase.phase_name}
                         </h3>
                         <p className="text-sm text-gray-500 mt-1">
@@ -832,7 +832,7 @@ const ProjectDetail = () => {
                           <div className="flex-1">
                             <div className="flex items-start justify-between">
                               <div className="flex-1">
-                                <div className={`font-medium ${task.completed ? 'line-through text-gray-400' : 'text-gray-900'}`}>
+                                <div className={`font-medium ${task.completed ? 'line-through text-gray-400' : 'text-gray-900 dark:text-gray-100'}`}>
                                   {task.step_number && (
                                     <span className="text-blue-600 mr-2">[{task.step_number}]</span>
                                   )}
@@ -952,7 +952,7 @@ const ProjectDetail = () => {
                         style={{ transform: 'rotate(-90deg)', transformOrigin: '50% 50%' }}
                       />
                     </svg>
-                    <span className="absolute text-2xl font-bold text-gray-900">
+                    <span className="absolute text-2xl font-bold text-gray-900 dark:text-gray-100">
                       {totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0}%
                     </span>
                   </div>
@@ -987,7 +987,7 @@ const ProjectDetail = () => {
                         style={{ transform: 'rotate(-90deg)', transformOrigin: '50% 50%' }}
                       />
                     </svg>
-                    <span className="absolute text-2xl font-bold text-gray-900">
+                    <span className="absolute text-2xl font-bold text-gray-900 dark:text-gray-100">
                       {totalChecklist > 0 ? Math.round((completedChecklist / totalChecklist) * 100) : 0}%
                     </span>
                   </div>
@@ -1038,7 +1038,7 @@ const ProjectDetail = () => {
                     <div key={phase.phase_number} className="border rounded-lg p-5 hover:bg-gray-50 transition-colors">
                       <div className="flex items-center justify-between mb-3">
                         <div>
-                          <div className="font-semibold text-gray-900">
+                          <div className="font-semibold text-gray-900 dark:text-gray-100">
                             フェーズ {phase.phase_number}: {phase.phase_name}
                           </div>
                           <div className="text-sm text-gray-500 mt-1">
@@ -1067,11 +1067,11 @@ const ProjectDetail = () => {
                       <div className="mt-3 grid grid-cols-3 gap-4 text-sm">
                         <div>
                           <span className="text-gray-500">未完了:</span>
-                          <span className="ml-2 font-medium text-gray-900">{phaseTotalTasks - phaseCompletedTasks}</span>
+                          <span className="ml-2 font-medium text-gray-900 dark:text-gray-100">{phaseTotalTasks - phaseCompletedTasks}</span>
                         </div>
                         <div>
                           <span className="text-gray-500">進行中:</span>
-                          <span className="ml-2 font-medium text-gray-900">
+                          <span className="ml-2 font-medium text-gray-900 dark:text-gray-100">
                             {phase.tasks.filter(t => !t.completed && t.due_date).length}
                           </span>
                         </div>
@@ -1106,7 +1106,7 @@ const ProjectDetail = () => {
                           <div key={platform}>
                             <div className="flex items-center justify-between mb-1">
                               <span className="text-sm text-gray-600">{platform}</span>
-                              <span className="text-sm font-medium text-gray-900">{count}件 ({percentage}%)</span>
+                              <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{count}件 ({percentage}%)</span>
                             </div>
                             <div className="w-full bg-gray-200 rounded-full h-2">
                               <div 
@@ -1135,7 +1135,7 @@ const ProjectDetail = () => {
                           <div key={status}>
                             <div className="flex items-center justify-between mb-1">
                               <span className="text-sm text-gray-600">{label}</span>
-                              <span className="text-sm font-medium text-gray-900">{count}件 ({percentage}%)</span>
+                              <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{count}件 ({percentage}%)</span>
                             </div>
                             <div className="w-full bg-gray-200 rounded-full h-2">
                               <div 
@@ -1175,7 +1175,7 @@ const ProjectDetail = () => {
             {checklistItems.length === 0 ? (
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-12 text-center">
                 <CheckSquare className="mx-auto h-12 w-12 text-gray-400" />
-                <h3 className="mt-2 text-sm font-medium text-gray-900">チェックリスト項目がありません</h3>
+                <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">チェックリスト項目がありません</h3>
                 <p className="mt-1 text-sm text-gray-500">
                   デフォルトチェックリストを生成してください
                 </p>
@@ -1196,7 +1196,7 @@ const ProjectDetail = () => {
                     <div className="bg-gray-50 dark:bg-gray-900/50 px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                       <div className="flex items-center justify-between">
                         <div>
-                          <h3 className="text-lg font-semibold text-gray-900">{platform} ストア申請チェックリスト</h3>
+                          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{platform} ストア申請チェックリスト</h3>
                           <p className="text-sm text-gray-500 mt-1">
                             {completedCount}/{platformItems.length} 完了 ({progress}%)
                           </p>
@@ -1228,7 +1228,7 @@ const ProjectDetail = () => {
                               data-testid={`checklist-checkbox-${item.id}`}
                             />
                             <div className="flex-1">
-                              <div className={`font-medium ${item.status === 'completed' ? 'line-through text-gray-400' : 'text-gray-900'}`}>
+                              <div className={`font-medium ${item.status === 'completed' ? 'line-through text-gray-400' : 'text-gray-900 dark:text-gray-100'}`}>
                                 {item.item_name}
                               </div>
                               {item.description && (
@@ -1321,7 +1321,7 @@ const ProjectDetail = () => {
                                           
                                           {/* File Info */}
                                           <div className="flex-1 min-w-0">
-                                            <div className="text-sm font-medium text-gray-900 truncate">
+                                            <div className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
                                               {file.original_name}
                                             </div>
                                             <div className="text-xs text-gray-500">
@@ -1393,7 +1393,7 @@ const ProjectDetail = () => {
             {rejections.length === 0 ? (
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-12 text-center">
                 <AlertTriangle className="mx-auto h-12 w-12 text-gray-400" />
-                <h3 className="mt-2 text-sm font-medium text-gray-900">リジェクト履歴がありません</h3>
+                <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">リジェクト履歴がありません</h3>
                 <p className="mt-1 text-sm text-gray-500">
                   リジェクトされた場合、ここに記録して対応を管理できます
                 </p>
@@ -1417,7 +1417,7 @@ const ProjectDetail = () => {
                     </div>
                     
                     <div className="mb-4">
-                      <h4 className="text-sm font-medium text-gray-900 mb-1">リジェクト理由:</h4>
+                      <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-1">リジェクト理由:</h4>
                       <p className="text-sm text-gray-700">{rejection.reason}</p>
                     </div>
                     
@@ -1444,7 +1444,7 @@ const ProjectDetail = () => {
         {/* AI Assistant Tab */}
         {activeTab === 'ai' && (
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6" data-testid="ai-tab">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">AIアシスタント</h2>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 dark:text-gray-100 mb-4">AIアシスタント</h2>
             <p className="text-gray-600 mb-6">
               アプリストア申請に関する質問や、ガイドライン、ベストプラクティスについて聞いてみてください。
             </p>
@@ -1480,11 +1480,11 @@ const ProjectDetail = () => {
               <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4" data-testid="ai-response">
                 <div className="mb-3">
                   <div className="text-sm font-medium text-gray-500 mb-1">あなた:</div>
-                  <div className="text-gray-900">{aiResponse.user_message}</div>
+                  <div className="text-gray-900 dark:text-gray-100">{aiResponse.user_message}</div>
                 </div>
                 <div>
                   <div className="text-sm font-medium text-blue-600 mb-1">AIアシスタント:</div>
-                  <div className="text-gray-900 whitespace-pre-wrap prose max-w-none">
+                  <div className="text-gray-900 dark:text-gray-100 whitespace-pre-wrap prose max-w-none">
                     {aiResponse.ai_response}
                   </div>
                 </div>
