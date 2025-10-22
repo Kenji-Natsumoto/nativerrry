@@ -169,11 +169,21 @@ const Dashboard = () => {
               <div
                 key={project.id}
                 onClick={() => navigate(`/project/${project.id}`)}
-                className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer"
+                className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer relative"
                 data-testid={`project-card-${project.id}`}
               >
+                {/* Delete Button */}
+                <button
+                  onClick={(e) => handleDeleteProject(e, project.id, project.name)}
+                  className="absolute top-4 right-4 p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors z-10"
+                  title="プロジェクトを削除"
+                  data-testid={`delete-project-${project.id}`}
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+
                 <div className="flex items-start justify-between">
-                  <div className="flex-1">
+                  <div className="flex-1 pr-8">
                     <div className="flex items-center gap-2 mb-2">
                       <span className="text-2xl">{getPlatformIcon(project.platform)}</span>
                       <h3 className="text-lg font-semibold text-gray-900 truncate">
