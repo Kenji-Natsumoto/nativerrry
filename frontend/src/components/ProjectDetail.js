@@ -1477,7 +1477,7 @@ const ProjectDetail = () => {
             </form>
             
             {aiResponse && (
-              <div className="bg-gray-50 rounded-lg p-4" data-testid="ai-response">
+              <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4" data-testid="ai-response">
                 <div className="mb-3">
                   <div className="text-sm font-medium text-gray-500 mb-1">あなた:</div>
                   <div className="text-gray-900">{aiResponse.user_message}</div>
