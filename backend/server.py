@@ -701,10 +701,13 @@ async def get_uploaded_file(filename: str):
     import mimetypes
     media_type, _ = mimetypes.guess_type(str(file_path))
     
+    # Return file with inline content disposition (display in browser, not download)
     return FileResponse(
         file_path,
         media_type=media_type or "application/octet-stream",
-        filename=filename
+        headers={
+            "Content-Disposition": f"inline; filename={filename}"
+        }
     )
 
 
