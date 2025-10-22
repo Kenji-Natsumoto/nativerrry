@@ -286,9 +286,12 @@ def test_task_memo(task_id):
     try:
         memo_text = "重要な注意事項：このタスクは特に慎重に進める必要があります。Apple Developer Programの登録には時間がかかる場合があります。"
         
-        response = requests.patch(f"{BASE_URL}/tasks/{task_id}/memo", 
-                                headers=HEADERS, 
-                                json={"memo": memo_text})
+        # URLエンコードしてクエリパラメータとして送信
+        import urllib.parse
+        encoded_memo = urllib.parse.quote(memo_text)
+        
+        response = requests.patch(f"{BASE_URL}/tasks/{task_id}/memo?memo={encoded_memo}", 
+                                headers=HEADERS)
         
         if response.status_code == 200:
             task = response.json()
