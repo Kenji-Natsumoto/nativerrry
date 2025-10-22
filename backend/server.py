@@ -10,6 +10,7 @@ from typing import List, Optional
 import uuid
 from datetime import datetime, timezone
 from emergentintegrations.llm.chat import LlmChat, UserMessage
+from default_tasks_template import get_default_tasks_for_platform, get_phases_summary
 
 
 ROOT_DIR = Path(__file__).parent
