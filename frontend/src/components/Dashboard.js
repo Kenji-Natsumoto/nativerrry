@@ -112,7 +112,7 @@ const Dashboard = () => {
                 nativarrry
               </h1>
               <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                ネイティブアプリ申請支援ツール - iOS & Android
+                iOS & Android:ネイティブアプリ登録支援ツール
               </p>
             </div>
             <div className="flex items-center gap-3">
