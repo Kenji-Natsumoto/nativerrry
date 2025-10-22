@@ -283,6 +283,13 @@ async def get_project(project_id: str):
 @api_router.put("/projects/{project_id}", response_model=Project)
 async def update_project(project_id: str, input: ProjectUpdate):
     update_data = {k: v for k, v in input.model_dump().items() if v is not None}
+    
+    # Serialize datetime fields
+    if 'start_date' in update_data and update_data['start_date']:
+        update_data['start_date'] = update_data['start_date'].isoformat()
+    if 'publish_date' in update_data and update_data['publish_date']:
+        update_data['publish_date'] = update_data['publish_date'].isoformat()
+    
     update_data['updated_at'] = datetime.now(timezone.utc).isoformat()
     
     result = await db.projects.update_one(
@@ -294,7 +301,7 @@ async def update_project(project_id: str, input: ProjectUpdate):
         raise HTTPException(status_code=404, detail="Project not found")
     
     project = await db.projects.find_one({"id": project_id}, {"_id": 0})
-    deserialize_datetime(project, ['created_at', 'updated_at'])
+    deserialize_datetime(project, ['created_at', 'updated_at', 'start_date', 'publish_date'])
     return project
 
 @api_router.delete("/projects/{project_id}")
