@@ -1,0 +1,79 @@
+[
+  {
+    "test": "GET /api/phases",
+    "success": true,
+    "details": "9つのフェーズが正しく取得できました: ['アカウント登録', 'アプリ情報準備・メタデータ入力', 'アプリビルド', 'アプリアップロード', 'テストトラック設定', '審査申請', '審査プロセス', 'リジェクト対応・再審査', '公開']",
+    "timestamp": "2025-10-22T03:45:34.593954",
+    "response_data": null
+  },
+  {
+    "test": "POST /api/projects (iOS)",
+    "success": true,
+    "details": "iOSプロジェクト作成成功。ID: 7f420ec3-b023-46d9-844b-48e52e19d30a",
+    "timestamp": "2025-10-22T03:45:34.694002",
+    "response_data": null
+  },
+  {
+    "test": "POST /api/projects (Android)",
+    "success": true,
+    "details": "Androidプロジェクト作成成功。ID: 35c3b875-943a-4041-959d-794027255c74",
+    "timestamp": "2025-10-22T03:45:34.739899",
+    "response_data": null
+  },
+  {
+    "test": "POST /api/projects (Both)",
+    "success": true,
+    "details": "Bothプロジェクト作成成功。ID: 0b848a5b-b3ed-4a87-959b-e7fc6076698d",
+    "timestamp": "2025-10-22T03:45:34.793264",
+    "response_data": null
+  },
+  {
+    "test": "GET /api/projects/7f420ec3-b023-46d9-844b-48e52e19d30a/tasks (iOS)",
+    "success": true,
+    "details": "タスク取得成功。総タスク数: 24, フェーズ数: 9",
+    "timestamp": "2025-10-22T03:45:34.838198",
+    "response_data": null
+  },
+  {
+    "test": "GET /api/projects/35c3b875-943a-4041-959d-794027255c74/tasks (Android)",
+    "success": true,
+    "details": "タスク取得成功。総タスク数: 10, フェーズ数: 7",
+    "timestamp": "2025-10-22T03:45:34.878735",
+    "response_data": null
+  },
+  {
+    "test": "GET /api/projects/0b848a5b-b3ed-4a87-959b-e7fc6076698d/tasks (Both)",
+    "success": true,
+    "details": "タスク取得成功。総タスク数: 26, フェーズ数: 9",
+    "timestamp": "2025-10-22T03:45:34.917907",
+    "response_data": null
+  },
+  {
+    "test": "POST /api/projects/7f420ec3-b023-46d9-844b-48e52e19d30a/generate-default-tasks",
+    "success": true,
+    "details": "デフォルトタスク生成成功。作成数: 24",
+    "timestamp": "2025-10-22T03:45:34.961864",
+    "response_data": null
+  },
+  {
+    "test": "PATCH /api/tasks/ee406a38-d573-4222-af05-8ecbdca23c7a/complete",
+    "success": false,
+    "details": "HTTPステータス: 422",
+    "timestamp": "2025-10-22T03:45:35.005371",
+    "response_data": "{\"detail\":[{\"type\":\"missing\",\"loc\":[\"query\",\"completed\"],\"msg\":\"Field required\",\"input\":null,\"url\":\"https://errors.pydantic.dev/2.12/v/missing\"}]}"
+  },
+  {
+    "test": "PATCH /api/tasks/ee406a38-d573-4222-af05-8ecbdca23c7a/memo",
+    "success": false,
+    "details": "HTTPステータス: 422",
+    "timestamp": "2025-10-22T03:45:35.046788",
+    "response_data": "{\"detail\":[{\"type\":\"missing\",\"loc\":[\"query\",\"memo\"],\"msg\":\"Field required\",\"input\":null,\"url\":\"https://errors.pydantic.dev/2.12/v/missing\"}]}"
+  },
+  {
+    "test": "PATCH /api/projects/7f420ec3-b023-46d9-844b-48e52e19d30a/schedule",
+    "success": true,
+    "details": "スケジュール更新成功。開始日: 2024-01-15T09:00:00+00:00, 公開日: 2024-03-01T00:00:00+00:00",
+    "timestamp": "2025-10-22T03:45:35.090074",
+    "response_data": null
+  }
+]
