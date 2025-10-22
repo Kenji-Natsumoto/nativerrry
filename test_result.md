@@ -101,3 +101,197 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: |
+  nativarrry（ネイティバリー）- ネイティブアプリ申請支援ツール
+  
+  フェーズ2: バックエンド実装完了
+  - デフォルトタスクの自動生成機能
+  - タスクチェック機能（完了/未完了）
+  - タスクメモ機能
+  - プロジェクトスケジュール管理（開始日・公開日）
+  - フェーズ一覧取得
+  - プロジェクトのタスク一覧（フェーズ別取得）
+
+backend:
+  - task: "Projectモデル拡張（start_date, publish_date追加）"
+    implemented: true
+    working: "NA"
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "start_dateとpublish_dateフィールドをProjectモデルに追加。ProjectCreate, ProjectUpdateも更新完了。"
+
+  - task: "Taskモデル拡張（completed, memo, step_number等追加）"
+    implemented: true
+    working: "NA"
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "completed, memo, step_number, phase_number, estimated_days, assigned_to, platform_specific, order, is_defaultフィールドを追加。TaskCreate, TaskUpdateも更新完了。"
+
+  - task: "デフォルトタスクテンプレート作成"
+    implemented: true
+    working: "NA"
+    file: "backend/default_tasks_template.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "9フェーズ、26タスクのデフォルトタスクテンプレートを作成。iOS/Android/Bothに対応。get_default_tasks_for_platform()とget_phases_summary()関数を実装。"
+
+  - task: "POST /api/projects - デフォルトタスク自動生成"
+    implemented: true
+    working: "NA"
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "プロジェクト作成時にauto_generate_tasksパラメータ（デフォルトtrue）でデフォルトタスクを自動生成する機能を追加。"
+
+  - task: "POST /api/projects/{project_id}/generate-default-tasks"
+    implemented: true
+    working: "NA"
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "既存プロジェクトにデフォルトタスクを生成するエンドポイントを追加。既存のデフォルトタスクは削除してから再生成。"
+
+  - task: "PATCH /api/tasks/{task_id}/complete"
+    implemented: true
+    working: "NA"
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "タスクの完了状態を更新するエンドポイント。completedフラグとcompleted_at、statusを自動更新。"
+
+  - task: "PATCH /api/tasks/{task_id}/memo"
+    implemented: true
+    working: "NA"
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "タスクのメモを更新するエンドポイントを追加。"
+
+  - task: "PATCH /api/projects/{project_id}/schedule"
+    implemented: true
+    working: "NA"
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "プロジェクトのstart_dateとpublish_dateを更新するエンドポイントを追加。"
+
+  - task: "GET /api/phases"
+    implemented: true
+    working: "NA"
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "フェーズ一覧を取得するエンドポイント。9つのフェーズの概要情報を返す。"
+
+  - task: "GET /api/projects/{project_id}/tasks"
+    implemented: true
+    working: "NA"
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "プロジェクトのタスクをフェーズ別にグループ化して取得するエンドポイント。phase_numberとcompletedでフィルタリング可能。"
+
+frontend:
+  - task: "フェーズ2実装（未実施）"
+    implemented: false
+    working: "NA"
+    file: "N/A"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "フェーズ2はバックエンドのみ。フロントエンドはフェーズ3で実装予定。"
+
+metadata:
+  created_by: "main_agent"
+  version: "1.0"
+  test_sequence: 1
+  run_ui: false
+
+test_plan:
+  current_focus:
+    - "POST /api/projects - デフォルトタスク自動生成"
+    - "POST /api/projects/{project_id}/generate-default-tasks"
+    - "PATCH /api/tasks/{task_id}/complete"
+    - "PATCH /api/tasks/{task_id}/memo"
+    - "PATCH /api/projects/{project_id}/schedule"
+    - "GET /api/phases"
+    - "GET /api/projects/{project_id}/tasks"
+  stuck_tasks: []
+  test_all: true
+  test_priority: "sequential"
+
+agent_communication:
+  - agent: "main"
+    message: |
+      フェーズ2（バックエンド実装）が完了しました。
+      
+      実装内容:
+      1. Projectモデルにスケジュールフィールド（start_date, publish_date）追加
+      2. Taskモデルに完了管理フィールド（completed, memo等）追加
+      3. デフォルトタスクテンプレート（9フェーズ、26タスク）作成
+      4. プロジェクト作成時の自動タスク生成機能
+      5. 既存プロジェクトへのデフォルトタスク追加API
+      6. タスク完了状態更新API
+      7. タスクメモ更新API
+      8. プロジェクトスケジュール更新API
+      9. フェーズ一覧取得API
+      10. プロジェクトタスク一覧（フェーズ別）取得API
+      
+      テストすべき主要なシナリオ:
+      1. 新規プロジェクト作成でデフォルトタスクが自動生成されるか
+      2. プラットフォーム（iOS/Android/Both）に応じたタスクが生成されるか
+      3. 既存プロジェクトへのデフォルトタスク追加が動作するか
+      4. タスクの完了状態が正しく更新されるか
+      5. タスクメモの追加・更新が動作するか
+      6. プロジェクトのスケジュール更新が動作するか
+      7. フェーズ一覧が正しく取得できるか
+      8. プロジェクトタスク一覧がフェーズごとに正しくグループ化されるか
+      
+      バックエンドサーバー: 正常起動確認済み
+      次のステップ: バックエンドAPIの全機能テスト
