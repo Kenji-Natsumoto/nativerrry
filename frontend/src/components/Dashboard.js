@@ -220,6 +220,36 @@ const Dashboard = () => {
                     data-testid="project-description-input"
                   />
                 </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="start_date" className="block text-sm font-medium text-gray-700 mb-1">
+                      ネイティブ申請開始日
+                    </label>
+                    <input
+                      type="date"
+                      id="start_date"
+                      value={newProject.start_date}
+                      onChange={(e) => setNewProject({ ...newProject, start_date: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      data-testid="project-start-date-input"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="publish_date" className="block text-sm font-medium text-gray-700 mb-1">
+                      公開日（目標）
+                    </label>
+                    <input
+                      type="date"
+                      id="publish_date"
+                      value={newProject.publish_date}
+                      onChange={(e) => setNewProject({ ...newProject, publish_date: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      data-testid="project-publish-date-input"
+                    />
+                  </div>
+                </div>
               </div>
 
               <div className="mt-6 flex gap-3">
