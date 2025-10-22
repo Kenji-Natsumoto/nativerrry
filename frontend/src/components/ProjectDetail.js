@@ -469,7 +469,7 @@ const ProjectDetail = () => {
                 className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
                 data-testid="back-button"
               >
-                <ArrowLeft className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+                <ArrowLeft className="w-5 h-5 text-gray-700 dark:text-gray-200 dark:text-gray-300" />
               </button>
               <div>
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent" data-testid="project-name">
@@ -494,7 +494,7 @@ const ProjectDetail = () => {
                   <option value="approved">✅ 承認済み</option>
                   <option value="rejected">❌ リジェクト</option>
                 </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-200">
                   <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                     <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                   </svg>
@@ -538,7 +538,7 @@ const ProjectDetail = () => {
                   className={`flex items-center gap-2 px-4 py-3 border-b-2 font-medium text-sm transition-colors ${
                     activeTab === tab.id
                       ? 'border-blue-600 dark:border-blue-400 text-blue-600 dark:text-blue-400'
-                      : 'border-transparent text-gray-500 dark:text-gray-400 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
+                      : 'border-transparent text-gray-500 dark:text-gray-400 dark:text-gray-400 hover:text-gray-700 dark:text-gray-200 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
                   }`}
                   data-testid={`tab-${tab.id}`}
                 >
@@ -634,7 +634,7 @@ const ProjectDetail = () => {
                           publish_date: project.publish_date ? project.publish_date.split('T')[0] : ''
                         });
                       }}
-                      className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-700"
+                      className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-700 dark:text-gray-200"
                     >
                       キャンセル
                     </button>
@@ -855,7 +855,7 @@ const ProjectDetail = () => {
                                     <span className={`px-2 py-0.5 rounded-full ${
                                       task.priority === 'high' ? 'bg-red-100 text-red-700' :
                                       task.priority === 'medium' ? 'bg-yellow-100 text-yellow-700' :
-                                      'bg-gray-100 text-gray-700'
+                                      'bg-gray-100 text-gray-700 dark:text-gray-200'
                                     }`}>
                                       {task.priority === 'high' ? '高' : task.priority === 'medium' ? '中' : '低'}
                                     </span>
@@ -872,7 +872,7 @@ const ProjectDetail = () => {
                             {/* Due Date Section */}
                             <div className="mt-3 flex items-center gap-3">
                               <div className="flex-1">
-                                <label className="block text-xs font-medium text-gray-700 mb-1">期日</label>
+                                <label className="block text-xs font-medium text-gray-700 dark:text-gray-200 mb-1">期日</label>
                                 <input
                                   type="date"
                                   value={task.due_date ? new Date(task.due_date).toISOString().split('T')[0] : ''}
@@ -892,7 +892,7 @@ const ProjectDetail = () => {
                             
                             {/* Memo Section */}
                             <div className="mt-3">
-                              <label className="block text-xs font-medium text-gray-700 mb-1">メモ</label>
+                              <label className="block text-xs font-medium text-gray-700 dark:text-gray-200 mb-1">メモ</label>
                               <textarea
                                 value={task.memo || ''}
                                 onChange={(e) => handleMemoChange(task.id, e.target.value)}
@@ -956,7 +956,7 @@ const ProjectDetail = () => {
                       {totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0}%
                     </span>
                   </div>
-                  <div className="mt-3 text-sm font-medium text-gray-700">タスク完了率</div>
+                  <div className="mt-3 text-sm font-medium text-gray-700 dark:text-gray-200">タスク完了率</div>
                   <div className="text-xs text-gray-500 dark:text-gray-400">{completedTasks}/{totalTasks} 完了</div>
                 </div>
 
@@ -991,7 +991,7 @@ const ProjectDetail = () => {
                       {totalChecklist > 0 ? Math.round((completedChecklist / totalChecklist) * 100) : 0}%
                     </span>
                   </div>
-                  <div className="mt-3 text-sm font-medium text-gray-700">チェックリスト完了率</div>
+                  <div className="mt-3 text-sm font-medium text-gray-700 dark:text-gray-200">チェックリスト完了率</div>
                   <div className="text-xs text-gray-500 dark:text-gray-400">{completedChecklist}/{totalChecklist} 完了</div>
                 </div>
 
@@ -1097,7 +1097,7 @@ const ProjectDetail = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Platform breakdown */}
                   <div>
-                    <h3 className="text-sm font-medium text-gray-700 mb-3">プラットフォーム別</h3>
+                    <h3 className="text-sm font-medium text-gray-700 dark:text-gray-200 mb-3">プラットフォーム別</h3>
                     <div className="space-y-3">
                       {['iOS', 'Android'].map(platform => {
                         const count = rejections.filter(r => r.platform === platform).length;
@@ -1122,7 +1122,7 @@ const ProjectDetail = () => {
 
                   {/* Status breakdown */}
                   <div>
-                    <h3 className="text-sm font-medium text-gray-700 mb-3">対応状況</h3>
+                    <h3 className="text-sm font-medium text-gray-700 dark:text-gray-200 mb-3">対応状況</h3>
                     <div className="space-y-3">
                       {[
                         { status: 'open', label: '対応中' },
@@ -1255,7 +1255,7 @@ const ProjectDetail = () => {
 
                               {/* File Upload */}
                               <div className="mt-3">
-                                <label className="block text-xs font-medium text-gray-700 mb-2">ファイル添付</label>
+                                <label className="block text-xs font-medium text-gray-700 dark:text-gray-200 mb-2">ファイル添付</label>
                                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 hover:border-blue-400 transition-colors">
                                   <input
                                     type="file"
@@ -1418,7 +1418,7 @@ const ProjectDetail = () => {
                     
                     <div className="mb-4">
                       <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-1">リジェクト理由:</h4>
-                      <p className="text-sm text-gray-700">{rejection.reason}</p>
+                      <p className="text-sm text-gray-700 dark:text-gray-200">{rejection.reason}</p>
                     </div>
                     
                     {rejection.ai_analysis && (
