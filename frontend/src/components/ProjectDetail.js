@@ -208,6 +208,46 @@ const ProjectDetail = () => {
     }
   };
 
+  const updateProjectStatus = async (newStatus) => {
+    try {
+      await axios.put(`${API}/projects/${projectId}`, {
+        status: newStatus
+      });
+      // Reload project data
+      const projectRes = await axios.get(`${API}/projects/${projectId}`);
+      setProject(projectRes.data);
+    } catch (error) {
+      console.error('Failed to update project status:', error);
+      alert('ステータスの更新に失敗しました');
+    }
+  };
+
+  const getStatusInfo = (status) => {
+    const statusMap = {
+      active: { 
+        label: '進行中', 
+        color: 'bg-blue-100 text-blue-800 border-blue-200',
+        icon: '🔵'
+      },
+      submitted: { 
+        label: '審査中', 
+        color: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+        icon: '⏳'
+      },
+      approved: { 
+        label: '承認済み', 
+        color: 'bg-green-100 text-green-800 border-green-200',
+        icon: '✅'
+      },
+      rejected: { 
+        label: 'リジェクト', 
+        color: 'bg-red-100 text-red-800 border-red-200',
+        icon: '❌'
+      }
+    };
+    return statusMap[status] || statusMap.active;
+  };
+
   const generateDefaultTasks = async () => {
     if (!window.confirm('デフォルトタスクを生成しますか？既存のデフォルトタスクは削除されます。')) return;
     
