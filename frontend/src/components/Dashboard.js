@@ -174,13 +174,13 @@ const Dashboard = () => {
               <div
                 key={project.id}
                 onClick={() => navigate(`/project/${project.id}`)}
-                className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer relative"
+                className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-md border border-gray-200 dark:border-gray-700 p-6 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 cursor-pointer relative group"
                 data-testid={`project-card-${project.id}`}
               >
                 {/* Delete Button */}
                 <button
                   onClick={(e) => handleDeleteProject(e, project.id, project.name)}
-                  className="absolute top-4 right-4 p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors z-10"
+                  className="absolute top-4 right-4 p-2 text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors z-10 opacity-0 group-hover:opacity-100"
                   title="プロジェクトを削除"
                   data-testid={`delete-project-${project.id}`}
                 >
@@ -189,25 +189,25 @@ const Dashboard = () => {
 
                 <div className="flex items-start justify-between">
                   <div className="flex-1 pr-8">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-2xl">{getPlatformIcon(project.platform)}</span>
-                      <h3 className="text-lg font-semibold text-gray-900 truncate">
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="text-3xl">{getPlatformIcon(project.platform)}</span>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 truncate">
                         {project.name}
                       </h3>
                     </div>
-                    <p className="text-sm text-gray-500 mb-3 line-clamp-2">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
                       {project.description || 'プロジェクトの説明はありません'}
                     </p>
                     <div className="flex items-center gap-2">
                       {getStatusBadge(project.status)}
-                      <span className="text-xs text-gray-400">
+                      <span className="text-xs text-gray-500 dark:text-gray-400 px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-full">
                         {project.platform}
                       </span>
                     </div>
                   </div>
                 </div>
-                <div className="mt-4 pt-4 border-t border-gray-100">
-                  <div className="text-xs text-gray-500">
+                <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
                     作成日: {new Date(project.created_at).toLocaleDateString('ja-JP')}
                   </div>
                 </div>
