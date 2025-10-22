@@ -372,6 +372,7 @@ const ProjectDetail = () => {
     { id: 'overview', label: '概要', icon: LayoutDashboard },
     { id: 'schedule', label: 'スケジュール', icon: Calendar },
     { id: 'tasks', label: 'タスク', icon: ListTodo },
+    { id: 'report', label: 'レポート', icon: BarChart3 },
     { id: 'checklist', label: 'チェックリスト', icon: CheckSquare },
     { id: 'rejections', label: 'リジェクト対応', icon: AlertTriangle },
     { id: 'ai', label: 'AIアシスタント', icon: MessageSquare }
