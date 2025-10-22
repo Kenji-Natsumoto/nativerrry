@@ -1192,7 +1192,7 @@ const ProjectDetail = () => {
                 const progress = Math.round((completedCount / platformItems.length) * 100);
 
                 return (
-                  <div key={platform} className="bg-white rounded-lg shadow-sm border">
+                  <div key={platform} className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                     <div className="bg-gray-50 px-6 py-4 border-b">
                       <div className="flex items-center justify-between">
                         <div>
