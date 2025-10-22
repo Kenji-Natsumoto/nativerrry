@@ -639,6 +639,27 @@ const ProjectDetail = () => {
                               </div>
                             </div>
                             
+                            {/* Due Date Section */}
+                            <div className="mt-3 flex items-center gap-3">
+                              <div className="flex-1">
+                                <label className="block text-xs font-medium text-gray-700 mb-1">期日</label>
+                                <input
+                                  type="date"
+                                  value={task.due_date ? new Date(task.due_date).toISOString().split('T')[0] : ''}
+                                  onChange={(e) => updateTaskDueDate(task.id, e.target.value)}
+                                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  data-testid={`task-due-date-${task.id}`}
+                                />
+                              </div>
+                              {task.due_date && getDueDateStatus(task.due_date) && (
+                                <div className="pt-5">
+                                  <span className={`px-2 py-1 text-xs font-medium rounded-full ${getDueDateStatus(task.due_date).color}`}>
+                                    {getDueDateStatus(task.due_date).label}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                            
                             {/* Memo Section */}
                             <div className="mt-3">
                               <label className="block text-xs font-medium text-gray-700 mb-1">メモ</label>
