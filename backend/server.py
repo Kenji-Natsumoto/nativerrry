@@ -210,13 +210,19 @@ async def root():
 
 @api_router.post("/projects", response_model=Project)
 async def create_project(input: ProjectCreate):
-    project_dict = input.model_dump()
+    auto_generate_tasks = input.auto_generate_tasks
+    project_dict = input.model_dump(exclude={'auto_generate_tasks'})
     project_obj = Project(**project_dict)
     
     doc = project_obj.model_dump()
     doc = serialize_datetime(doc)
     
     await db.projects.insert_one(doc)
+    
+    # デフォルトタスクの自動生成
+    if auto_generate_tasks:
+        await generate_default_tasks_for_project(project_obj.id, project_obj.platform)
+    
     return project_obj
 
 @api_router.get("/projects", response_model=List[Project])
