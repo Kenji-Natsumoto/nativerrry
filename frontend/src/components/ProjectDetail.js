@@ -571,6 +571,51 @@ const ProjectDetail = () => {
                 })}
               </div>
             </div>
+
+            {/* Upcoming Due Dates */}
+            <div className="bg-white rounded-lg shadow-sm border p-6">
+              <h3 className="text-lg font-semibold mb-4">期日が設定されたタスク</h3>
+              <div className="space-y-3">
+                {allTasks
+                  .filter(t => t.due_date && !t.completed)
+                  .sort((a, b) => new Date(a.due_date) - new Date(b.due_date))
+                  .map((task) => {
+                    const status = getDueDateStatus(task.due_date);
+                    return (
+                      <div key={task.id} className="border rounded-lg p-3 hover:bg-gray-50">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="font-medium text-gray-900">
+                              {task.step_number && (
+                                <span className="text-blue-600 mr-2">[{task.step_number}]</span>
+                              )}
+                              {task.title}
+                            </div>
+                            <div className="text-sm text-gray-500 mt-1">
+                              {task.phase}
+                            </div>
+                          </div>
+                          <div className="ml-4 text-right">
+                            <div className="text-sm font-medium text-gray-900">
+                              {new Date(task.due_date).toLocaleDateString('ja-JP')}
+                            </div>
+                            {status && (
+                              <span className={`mt-1 inline-block px-2 py-0.5 text-xs font-medium rounded-full ${status.color}`}>
+                                {status.label}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                {allTasks.filter(t => t.due_date && !t.completed).length === 0 && (
+                  <p className="text-gray-400 text-sm text-center py-4">
+                    期日が設定されたタスクはありません
+                  </p>
+                )}
+              </div>
+            </div>
           </div>
         )}
 
