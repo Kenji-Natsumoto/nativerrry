@@ -3,77 +3,84 @@
     "test": "GET /api/phases",
     "success": true,
     "details": "9つのフェーズが正しく取得できました: ['アカウント登録', 'アプリ情報準備・メタデータ入力', 'アプリビルド', 'アプリアップロード', 'テストトラック設定', '審査申請', '審査プロセス', 'リジェクト対応・再審査', '公開']",
-    "timestamp": "2025-10-22T03:46:28.623464",
+    "timestamp": "2025-10-22T03:46:52.350776",
     "response_data": null
   },
   {
     "test": "POST /api/projects (iOS)",
     "success": true,
-    "details": "iOSプロジェクト作成成功。ID: e886d772-51e8-44bb-bd54-8c16732249e3",
-    "timestamp": "2025-10-22T03:46:28.708050",
+    "details": "iOSプロジェクト作成成功。ID: e86f4e7f-fe86-4c0e-8d53-38d3344424a1",
+    "timestamp": "2025-10-22T03:46:52.398467",
     "response_data": null
   },
   {
     "test": "POST /api/projects (Android)",
     "success": true,
-    "details": "Androidプロジェクト作成成功。ID: 352fb347-2457-48ec-b59f-48a9225908c2",
-    "timestamp": "2025-10-22T03:46:28.748808",
+    "details": "Androidプロジェクト作成成功。ID: c8a82784-4996-47d0-9291-a5ece4886e0d",
+    "timestamp": "2025-10-22T03:46:52.439093",
     "response_data": null
   },
   {
     "test": "POST /api/projects (Both)",
     "success": true,
-    "details": "Bothプロジェクト作成成功。ID: eb39540a-db72-4b0e-82fd-2ab3324ab20c",
-    "timestamp": "2025-10-22T03:46:28.792869",
+    "details": "Bothプロジェクト作成成功。ID: 66c91f76-fe72-41ff-86c9-960a109c1814",
+    "timestamp": "2025-10-22T03:46:52.494076",
     "response_data": null
   },
   {
-    "test": "GET /api/projects/e886d772-51e8-44bb-bd54-8c16732249e3/tasks (iOS)",
+    "test": "GET /api/projects/e86f4e7f-fe86-4c0e-8d53-38d3344424a1/tasks (iOS)",
     "success": true,
     "details": "タスク取得成功。総タスク数: 24, フェーズ数: 9",
-    "timestamp": "2025-10-22T03:46:28.836989",
+    "timestamp": "2025-10-22T03:46:52.536694",
     "response_data": null
   },
   {
-    "test": "GET /api/projects/352fb347-2457-48ec-b59f-48a9225908c2/tasks (Android)",
+    "test": "GET /api/projects/c8a82784-4996-47d0-9291-a5ece4886e0d/tasks (Android)",
     "success": true,
     "details": "タスク取得成功。総タスク数: 10, フェーズ数: 7",
-    "timestamp": "2025-10-22T03:46:28.876981",
+    "timestamp": "2025-10-22T03:46:52.577642",
     "response_data": null
   },
   {
-    "test": "GET /api/projects/eb39540a-db72-4b0e-82fd-2ab3324ab20c/tasks (Both)",
+    "test": "GET /api/projects/66c91f76-fe72-41ff-86c9-960a109c1814/tasks (Both)",
     "success": true,
     "details": "タスク取得成功。総タスク数: 26, フェーズ数: 9",
-    "timestamp": "2025-10-22T03:46:28.918126",
+    "timestamp": "2025-10-22T03:46:52.617871",
     "response_data": null
   },
   {
-    "test": "POST /api/projects/e886d772-51e8-44bb-bd54-8c16732249e3/generate-default-tasks",
+    "test": "POST /api/projects/e86f4e7f-fe86-4c0e-8d53-38d3344424a1/generate-default-tasks",
     "success": true,
     "details": "デフォルトタスク生成成功。作成数: 24",
-    "timestamp": "2025-10-22T03:46:28.962086",
+    "timestamp": "2025-10-22T03:46:52.662266",
     "response_data": null
   },
   {
-    "test": "PATCH /api/tasks/0981e07f-6ae3-4d97-8bf9-df89c2ace7d7/complete",
-    "success": false,
-    "details": "HTTPステータス: 404",
-    "timestamp": "2025-10-22T03:46:29.045945",
-    "response_data": "{\"detail\":\"Task not found\"}"
+    "test": "GET /api/projects/e86f4e7f-fe86-4c0e-8d53-38d3344424a1/tasks (iOS (after regen))",
+    "success": true,
+    "details": "タスク取得成功。総タスク数: 24, フェーズ数: 9",
+    "timestamp": "2025-10-22T03:46:52.709594",
+    "response_data": null
   },
   {
-    "test": "PATCH /api/tasks/0981e07f-6ae3-4d97-8bf9-df89c2ace7d7/memo",
-    "success": false,
-    "details": "HTTPステータス: 404",
-    "timestamp": "2025-10-22T03:46:29.083476",
-    "response_data": "{\"detail\":\"Task not found\"}"
+    "test": "PATCH /api/tasks/5dfed51d-d859-40ac-ad09-1b93b52a670c/complete",
+    "success": true,
+    "details": "タスク完了状態の更新（完了→未完了）が正常に動作",
+    "timestamp": "2025-10-22T03:46:52.785036",
+    "response_data": null
   },
   {
-    "test": "PATCH /api/projects/e886d772-51e8-44bb-bd54-8c16732249e3/schedule",
+    "test": "PATCH /api/tasks/5dfed51d-d859-40ac-ad09-1b93b52a670c/memo",
+    "success": true,
+    "details": "メモ更新成功: 重要な注意事項：このタスクは特に慎重に進める必要があります。Apple Developer Prog...",
+    "timestamp": "2025-10-22T03:46:52.828781",
+    "response_data": null
+  },
+  {
+    "test": "PATCH /api/projects/e86f4e7f-fe86-4c0e-8d53-38d3344424a1/schedule",
     "success": true,
     "details": "スケジュール更新成功。開始日: 2024-02-01T10:00:00+00:00, 公開日: 2024-06-15T00:00:00+00:00",
-    "timestamp": "2025-10-22T03:46:29.120533",
+    "timestamp": "2025-10-22T03:46:52.862122",
     "response_data": null
   }
 ]
