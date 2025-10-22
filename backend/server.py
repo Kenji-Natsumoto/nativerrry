@@ -11,6 +11,7 @@ import uuid
 from datetime import datetime, timezone
 from emergentintegrations.llm.chat import LlmChat, UserMessage
 from default_tasks_template import get_default_tasks_for_platform, get_phases_summary
+from default_checklist_template import get_default_checklist_for_platform
 
 
 ROOT_DIR = Path(__file__).parent
