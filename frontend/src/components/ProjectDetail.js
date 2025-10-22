@@ -117,14 +117,74 @@ const ProjectDetail = () => {
     }
   };
 
-  const updateTaskStatus = async (taskId, newStatus) => {
+  const toggleTaskCompletion = async (taskId, completed) => {
     try {
-      const response = await axios.put(`${API}/tasks/${taskId}`, {
-        status: newStatus
-      });
-      setTasks(tasks.map(t => t.id === taskId ? response.data : t));
+      await axios.patch(`${API}/tasks/${taskId}/complete?completed=${completed}`);
+      // Reload tasks to reflect changes
+      const tasksByPhaseRes = await axios.get(`${API}/projects/${projectId}/tasks`);
+      setTasksByPhase(tasksByPhaseRes.data.tasks_by_phase || []);
     } catch (error) {
-      console.error('Failed to update task:', error);
+      console.error('Failed to update task completion:', error);
+      alert('タスクの更新に失敗しました');
+    }
+  };
+
+  const updateTaskMemo = async (taskId, memo) => {
+    try {
+      await axios.patch(`${API}/tasks/${taskId}/memo?memo=${encodeURIComponent(memo)}`);
+      // Reload tasks to reflect changes
+      const tasksByPhaseRes = await axios.get(`${API}/projects/${projectId}/tasks`);
+      setTasksByPhase(tasksByPhaseRes.data.tasks_by_phase || []);
+    } catch (error) {
+      console.error('Failed to update task memo:', error);
+      alert('メモの更新に失敗しました');
+    }
+  };
+
+  const handleMemoChange = (taskId, memo) => {
+    // Update locally first for instant feedback
+    setTasksByPhase(tasksByPhase.map(phase => ({
+      ...phase,
+      tasks: phase.tasks.map(task => 
+        task.id === taskId ? { ...task, memo } : task
+      )
+    })));
+  };
+
+  const updateSchedule = async () => {
+    try {
+      const params = new URLSearchParams();
+      if (scheduleData.start_date) {
+        params.append('start_date', new Date(scheduleData.start_date).toISOString());
+      }
+      if (scheduleData.publish_date) {
+        params.append('publish_date', new Date(scheduleData.publish_date).toISOString());
+      }
+      
+      await axios.patch(`${API}/projects/${projectId}/schedule?${params.toString()}`);
+      setEditingSchedule(false);
+      // Reload project data
+      const projectRes = await axios.get(`${API}/projects/${projectId}`);
+      setProject(projectRes.data);
+      alert('スケジュールを更新しました');
+    } catch (error) {
+      console.error('Failed to update schedule:', error);
+      alert('スケジュールの更新に失敗しました');
+    }
+  };
+
+  const generateDefaultTasks = async () => {
+    if (!window.confirm('デフォルトタスクを生成しますか？既存のデフォルトタスクは削除されます。')) return;
+    
+    try {
+      await axios.post(`${API}/projects/${projectId}/generate-default-tasks`);
+      // Reload tasks
+      const tasksByPhaseRes = await axios.get(`${API}/projects/${projectId}/tasks`);
+      setTasksByPhase(tasksByPhaseRes.data.tasks_by_phase || []);
+      alert('デフォルトタスクを生成しました');
+    } catch (error) {
+      console.error('Failed to generate default tasks:', error);
+      alert('デフォルトタスクの生成に失敗しました');
     }
   };
 
