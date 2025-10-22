@@ -266,7 +266,7 @@ async def get_projects():
     projects = await db.projects.find({}, {"_id": 0}).to_list(1000)
     
     for project in projects:
-        deserialize_datetime(project, ['created_at', 'updated_at'])
+        deserialize_datetime(project, ['created_at', 'updated_at', 'start_date', 'publish_date'])
     
     return projects
 
