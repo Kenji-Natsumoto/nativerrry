@@ -1279,7 +1279,7 @@ const ProjectDetail = () => {
                                 {item.files && item.files.length > 0 && (
                                   <div className="mt-3 space-y-2">
                                     {item.files.map((file, idx) => {
-                                      const imageUrl = `${BACKEND_URL}/api/uploads/${file.filename}`;
+                                      const imageUrl = `${BACKEND_URL}/uploads/${file.filename}`;
                                       return (
                                         <div key={idx} className="flex items-center gap-3 p-2 bg-gray-50 rounded-lg border">
                                           {isImageFile(file.mime_type) ? (
