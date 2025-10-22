@@ -313,14 +313,14 @@ const Dashboard = () => {
                     setShowModal(false);
                     setNewProject({ name: '', platform: 'Both', description: '', start_date: '', publish_date: '' });
                   }}
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                  className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                   data-testid="cancel-button"
                 >
                   キャンセル
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors"
+                  className="flex-1 px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 hover:shadow-lg transition-all"
                   data-testid="submit-project-button"
                 >
                   作成
