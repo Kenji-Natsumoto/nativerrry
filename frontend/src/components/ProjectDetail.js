@@ -302,18 +302,21 @@ const ProjectDetail = () => {
       const formData = new FormData();
       formData.append('file', file);
       
-      await axios.post(`${API}/checklist/${itemId}/upload`, formData, {
+      const response = await axios.post(`${API}/checklist/${itemId}/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
       
-      // Reload checklist
-      const checklistRes = await axios.get(`${API}/checklist?project_id=${projectId}`);
-      setChecklistItems(checklistRes.data);
+      console.log('Upload response:', response.data);
+      
+      // Reload checklist immediately after upload
+      await loadProjectData();
+      
+      alert('ファイルをアップロードしました');
     } catch (error) {
       console.error('Failed to upload file:', error);
-      alert('ファイルのアップロードに失敗しました');
+      alert('ファイルのアップロードに失敗しました: ' + (error.response?.data?.detail || error.message));
     }
   };
 
