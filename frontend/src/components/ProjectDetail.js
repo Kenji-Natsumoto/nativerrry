@@ -1291,7 +1291,7 @@ const ProjectDetail = () => {
                                       );
                                       
                                       return (
-                                        <div key={idx} className="flex items-center gap-3 p-2 bg-gray-50 rounded-lg border">
+                                        <div key={idx} className="flex items-center gap-3 p-2 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600">
                                           {/* Thumbnail/Icon */}
                                           <div className="w-12 h-12 flex items-center justify-center bg-gray-200 rounded flex-shrink-0">
                                             {isImage ? (
