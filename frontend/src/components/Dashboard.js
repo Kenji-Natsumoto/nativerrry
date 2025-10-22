@@ -56,6 +56,23 @@ const Dashboard = () => {
     return '📱';
   };
 
+  const handleDeleteProject = async (e, projectId, projectName) => {
+    e.stopPropagation(); // Prevent navigation when clicking delete
+    
+    if (!window.confirm(`「${projectName}」を削除しますか？\nこの操作は取り消せません。`)) {
+      return;
+    }
+
+    try {
+      await axios.delete(`${API}/projects/${projectId}`);
+      setProjects(projects.filter(p => p.id !== projectId));
+      alert('プロジェクトを削除しました');
+    } catch (error) {
+      console.error('Failed to delete project:', error);
+      alert('プロジェクトの削除に失敗しました');
+    }
+  };
+
   const getStatusBadge = (status) => {
     const statusMap = {
       active: { label: '進行中', color: 'bg-blue-100 text-blue-800' },
