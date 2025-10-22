@@ -413,7 +413,7 @@ const ProjectDetail = () => {
               <h2 className="text-xl font-semibold mb-4">プロジェクト概要</h2>
               <p className="text-gray-600 mb-4">{project.description || 'プロジェクトの説明はありません'}</p>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
                 <div className="bg-blue-50 rounded-lg p-4">
                   <div className="text-sm text-blue-600 font-medium mb-1">タスク進捗</div>
                   <div className="text-2xl font-bold text-blue-900">
@@ -434,11 +434,19 @@ const ProjectDetail = () => {
                   </div>
                 </div>
                 
-                <div className="bg-red-50 rounded-lg p-4">
-                  <div className="text-sm text-red-600 font-medium mb-1">リジェクト</div>
-                  <div className="text-2xl font-bold text-red-900">{rejections.length}</div>
-                  <div className="text-xs text-red-600 mt-1">
-                    {rejections.filter(r => r.status === 'open').length} 件対応中
+                <div className="bg-orange-50 rounded-lg p-4">
+                  <div className="text-sm text-orange-600 font-medium mb-1">期日超過</div>
+                  <div className="text-2xl font-bold text-orange-900">{overdueTasks}</div>
+                  <div className="text-xs text-orange-600 mt-1">
+                    要対応タスク
+                  </div>
+                </div>
+                
+                <div className="bg-yellow-50 rounded-lg p-4">
+                  <div className="text-sm text-yellow-600 font-medium mb-1">今週の期日</div>
+                  <div className="text-2xl font-bold text-yellow-900">{upcomingTasks}</div>
+                  <div className="text-xs text-yellow-600 mt-1">
+                    7日以内
                   </div>
                 </div>
               </div>
